@@ -496,7 +496,8 @@ local function FillInstance(Table: { [string]: any }, Instance: GuiObject)
             continue
         elseif ThemeProperties[k] then
             ThemeProperties[k] = nil
-        elseif Library.Scheme[v] or typeof(v) == "function" then
+        elseif k ~= "Text" and (Library.Scheme[v] or typeof(v) == "function") then
+            -- me when Red in dropdowns break things (temp fix - or perm idk if deivid will do something about this)
             ThemeProperties[k] = v
             Instance[k] = Library.Scheme[v] or v()
             continue
