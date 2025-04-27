@@ -544,14 +544,30 @@ local function New(ClassName: string, Properties: { [string]: any }): any
 end
 
 --// Main Instances \\-
-local function ParentUI(UI: Instance)
-    pcall(protectgui, UI);
-
+local function SafeParentUI(Instance: Instance, Parent: Instance | () -> Instance)
     if not pcall(function()
-            UI.Parent = gethui()
-        end) then
-        UI.Parent = Library.LocalPlayer:WaitForChild("PlayerGui", math.huge)
+        local DestinationParent
+        if typeof(Parent) == "function" then
+            DestinationParent = Parent()
+        else
+            DestinationParent = Parent
+        end
+
+        Instance.Parent = DestinationParent
+    end) then
+        Instance.Parent = Library.LocalPlayer:WaitForChild("PlayerGui", math.huge)
     end
+end
+
+local function ParentUI(UI: Instance, SkipHiddenUI: boolean?)
+    if SkipHiddenUI then
+        SafeParentUI(UI, CoreGui)
+        return
+    end
+
+    pcall(protectgui, UI)
+
+    SafeParentUI(UI, gethui)
 end
 
 local ScreenGui = New("ScreenGui", {
@@ -566,13 +582,20 @@ ScreenGui.DescendantRemoving:Connect(function(Instance)
     Library.DPIRegistry[Instance] = nil
 end)
 
+local ModalScreenGui = New("ScreenGui", {
+    Name = "ObisidanModal",
+    DisplayOrder = 999,
+    ResetOnSpawn = false,
+})
+ParentUI(ModalScreenGui, true)
+
 local ModalElement = New("TextButton", {
     BackgroundTransparency = 1,
     Modal = false,
     Size = UDim2.fromScale(0, 0),
     Text = "",
     ZIndex = -999,
-    Parent = ScreenGui,
+    Parent = ModalScreenGui,
 })
 
 --// Cursor
@@ -1224,6 +1247,7 @@ function Library:Unload()
 
     Library.Unloaded = true
     ScreenGui:Destroy()
+    ModalScreenGui:Destroy()
     getgenv().Library = nil
 end
 
