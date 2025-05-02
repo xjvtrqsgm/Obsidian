@@ -546,6 +546,10 @@ end
 --// Main Instances \\-
 local function SafeParentUI(Instance: Instance, Parent: Instance | () -> Instance)
     if not pcall(function()
+        if not Parent then
+            Parent = CoreGui
+        end
+        
         local DestinationParent
         if typeof(Parent) == "function" then
             DestinationParent = Parent()
