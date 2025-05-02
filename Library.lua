@@ -546,6 +546,8 @@ end
 --// Main Instances \\-
 local function SafeParentUI(Instance: Instance, Parent: Instance | () -> Instance)
     if not pcall(function()
+        assert(Parent, "Could not find gui to parent to")
+        
         local DestinationParent
         if typeof(Parent) == "function" then
             DestinationParent = Parent()
