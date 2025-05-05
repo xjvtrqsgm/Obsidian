@@ -3954,7 +3954,9 @@ function Library:Notify(...)
 
     task.delay(Library.NotifyTweenInfo.Time, function()
         if typeof(Data.Time) == "Instance" then
-            Data.Time.Destroying:Wait()
+            if Data.Time.Parent ~= nil then
+                Data.Time.Destroying:Wait()
+            end
         else
             TweenService
                 :Create(TimerFill, TweenInfo.new(Data.Time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
