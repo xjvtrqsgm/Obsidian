@@ -3783,6 +3783,14 @@ function Library:Notify(...)
         Data.SoundId = select(3, ...)
     end
 
+    local DeletedTime = false
+    if typeof(Data.Time) == "Instance" then
+        local Con; Con = Data.Time.Destroying:Connect(function()
+            DeletedTime = true;
+            Con:Disconnect();
+        end)
+    end
+
     local FakeBackground = New("Frame", {
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundTransparency = 1,
@@ -3847,6 +3855,7 @@ function Library:Notify(...)
             },
         })
     end
+
     if Data.Description then
         Desc = New("TextLabel", {
             BackgroundTransparency = 1,
@@ -3954,9 +3963,7 @@ function Library:Notify(...)
 
     task.delay(Library.NotifyTweenInfo.Time, function()
         if typeof(Data.Time) == "Instance" then
-            if Data.Time.Parent ~= nil then
-                Data.Time.Destroying:Wait()
-            end
+            repeat task.wait() until DeletedTime == true
         else
             TweenService
                 :Create(TimerFill, TweenInfo.new(Data.Time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
