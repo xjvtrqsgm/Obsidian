@@ -291,7 +291,11 @@ local function WaitForEvent(Event, Timeout, Condition)
         Connection:Disconnect()
         Bindable:Fire(false)
     end)
-    return Bindable.Event:Wait()
+
+    local Result = Bindable.Event:Wait()
+    Bindable:Destroy()
+
+    return Result
 end
 local function IsClickInput(Input: InputObject, IncludeM2: boolean?)
     return (
