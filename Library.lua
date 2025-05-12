@@ -19,7 +19,7 @@ local gethui = gethui or function()
     return CoreGui 
 end
 
-local LocalPlayer = Players.LocalPlayer
+local LocalPlayer = Players.LocalPlayer or Players.PlayerAdded:Wait()
 local Mouse = LocalPlayer:GetMouse()
 
 local Labels = {}
