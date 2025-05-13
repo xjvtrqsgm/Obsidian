@@ -668,6 +668,7 @@ Library:SetDPIScale(150) -- 150% scaling
 | --- | --- |
 | `Library.Toggled` | Whether the UI is currently visible |
 | `Library.IsMobile` | Whether the user is on a mobile device |
+| `Library.IsRobloxFocused` | Whether the roblox window is focused |
 | `Library.CornerRadius` | The corner radius used throughout the UI |
 | `Library.NotifySide` | Which side notifications appear on |
 | `Library.ShowCustomCursor` | Whether to show the custom cursor |
