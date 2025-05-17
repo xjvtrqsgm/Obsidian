@@ -41,6 +41,7 @@ local Library = {
 
     ActiveTab = nil,
     Tabs = {},
+    DependencyBoxes = {},
 
     KeybindFrame = nil,
     KeybindContainer = nil,
@@ -394,10 +395,86 @@ function Library:UpdateKeybindFrame()
     Library.KeybindFrame.Size = UDim2.fromOffset(XSize + 18 * Library.DPIScale, 0)
 end
 function Library:UpdateDependencyBoxes()
-    for _, Depbox in pairs(Library.ActiveTab.Dependencyboxes) do
-        Depbox:Update()
+    for _, Depbox in pairs(Library.DependencyBoxes) do
+        Depbox:Update(true)
+    end
+
+    if Library.Searching then
+        Library:UpdateSearch(Library.SearchText)
     end
 end
+
+local function CheckDepbox(Box, Search)
+    local VisibleElements = 0
+
+    for _, ElementInfo in pairs(Box.Elements) do
+        if ElementInfo.Type == "Divider" then
+            ElementInfo.Holder.Visible = false
+            continue
+        elseif ElementInfo.SubButton then
+            --// Check if any of the Buttons Name matches with Search
+            local Visible = false
+
+            --// Check if Search matches Element's Name and if Element is Visible
+            if ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
+                Visible = true
+            else
+                ElementInfo.Base.Visible = false
+            end
+            if ElementInfo.SubButton.Text:lower():match(Search) and ElementInfo.SubButton.Visible then
+                Visible = true
+            else
+                ElementInfo.SubButton.Base.Visible = false
+            end
+            ElementInfo.Holder.Visible = Visible
+            if Visible then
+                VisibleElements += 1
+            end
+
+            continue
+        end
+
+        --// Check if Search matches Element's Name and if Element is Visible
+        if ElementInfo.Text and ElementInfo.Text:lower():match(Search) and ElementInfo.Visible then
+            ElementInfo.Holder.Visible = true
+            VisibleElements += 1
+        else
+            ElementInfo.Holder.Visible = false
+        end
+    end
+
+    for _, Depbox in pairs(Box.DependencyBoxes) do
+        if not Depbox.Visible then
+            continue
+        end
+
+        VisibleElements += CheckDepbox(Depbox, Search)
+    end
+
+    return VisibleElements
+end
+local function RestoreDepbox(Box)
+    for _, ElementInfo in pairs(Box.Elements) do
+        ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible or true
+
+        if ElementInfo.SubButton then
+            ElementInfo.Base.Visible = ElementInfo.Visible
+            ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible
+        end
+    end
+
+    Box:Resize()
+    Box.Holder.Visible = true
+
+    for _, Depbox in pairs(Box.DependencyBoxes) do
+        if not Depbox.Visible then
+            continue
+        end
+
+        RestoreDepbox(Depbox)
+    end
+end
+
 function Library:UpdateSearch(SearchText)
     Library.SearchText = SearchText
 
@@ -411,6 +488,14 @@ function Library:UpdateSearch(SearchText)
                     ElementInfo.Base.Visible = ElementInfo.Visible
                     ElementInfo.SubButton.Base.Visible = ElementInfo.SubButton.Visible
                 end
+            end
+
+            for _, Depbox in pairs(Groupbox.DependencyBoxes) do
+                if not Depbox.Visible then
+                    continue
+                end
+
+                RestoreDepbox(Depbox)
             end
 
             Groupbox:Resize()
@@ -429,6 +514,14 @@ function Library:UpdateSearch(SearchText)
                     end
                 end
 
+                for _, Depbox in pairs(Tab.DependencyBoxes) do
+                    if not Depbox.Visible then
+                        continue
+                    end
+
+                    RestoreDepbox(Depbox)
+                end
+
                 Tab.ButtonHolder.Visible = true
             end
 
@@ -436,12 +529,12 @@ function Library:UpdateSearch(SearchText)
             Tabbox.Holder.Visible = true
         end
 
-        for _, Depbox in pairs(Library.LastSearchTab.Dependencyboxes) do
-            if not Depbox.Visible then
+        for _, DepGroupbox in pairs(Library.LastSearchTab.DependencyGroupboxes) do
+            if not DepGroupbox.Visible then
                 continue
             end
 
-            for _, ElementInfo in pairs(Depbox.Elements) do
+            for _, ElementInfo in pairs(DepGroupbox.Elements) do
                 ElementInfo.Holder.Visible = typeof(ElementInfo.Visible) == "boolean" and ElementInfo.Visible or true
 
                 if ElementInfo.SubButton then
@@ -450,8 +543,16 @@ function Library:UpdateSearch(SearchText)
                 end
             end
 
-            Depbox:Resize()
-            Depbox.Holder.Visible = true
+            for _, Depbox in pairs(DepGroupbox.DependencyBoxes) do
+                if not Depbox.Visible then
+                    continue
+                end
+
+                RestoreDepbox(Depbox)
+            end
+
+            DepGroupbox:Resize()
+            DepGroupbox.Holder.Visible = true
         end
     end
 
@@ -505,6 +606,14 @@ function Library:UpdateSearch(SearchText)
             end
         end
 
+        for _, Depbox in pairs(Groupbox.DependencyBoxes) do
+            if not Depbox.Visible then
+                continue
+            end
+
+            VisibleElements += CheckDepbox(Depbox, Search)
+        end
+
         --// Update Groupbox Size and Visibility if found any element
         if VisibleElements > 0 then
             Groupbox:Resize()
@@ -554,6 +663,14 @@ function Library:UpdateSearch(SearchText)
                     ElementInfo.Holder.Visible = false
                 end
             end
+
+            for _, Depbox in pairs(Tab.DependencyBoxes) do
+                if not Depbox.Visible then
+                    continue
+                end
+
+                VisibleElements[Tab] += CheckDepbox(Depbox, Search)
+            end
         end
 
         for Tab, Visible in pairs(VisibleElements) do
@@ -573,14 +690,14 @@ function Library:UpdateSearch(SearchText)
         Tabbox.Holder.Visible = VisibleTabs > 0
     end
 
-    for _, Depbox in pairs(Library.ActiveTab.Dependencyboxes) do
-        if not Depbox.Visible then
+    for _, DepGroupbox in pairs(Library.ActiveTab.DependencyGroupboxes) do
+        if not DepGroupbox.Visible then
             continue
         end
 
         local VisibleElements = 0
 
-        for _, ElementInfo in pairs(Depbox.Elements) do
+        for _, ElementInfo in pairs(DepGroupbox.Elements) do
             if ElementInfo.Type == "Divider" then
                 ElementInfo.Holder.Visible = false
                 continue
@@ -616,11 +733,19 @@ function Library:UpdateSearch(SearchText)
             end
         end
 
+        for _, Depbox in pairs(DepGroupbox.DependencyBoxes) do
+            if not Depbox.Visible then
+                continue
+            end
+
+            VisibleElements += CheckDepbox(Depbox, Search)
+        end
+
         --// Update Groupbox Size and Visibility if found any element
         if VisibleElements > 0 then
-            Depbox:Resize()
+            DepGroupbox:Resize()
         end
-        Depbox.Holder.Visible = VisibleElements > 0
+        DepGroupbox.Holder.Visible = VisibleElements > 0
     end
 
     --// Set Last Tab to Current One
@@ -3992,40 +4117,21 @@ do
 
     function Funcs:AddDependencyBox()
         local Groupbox = self
-        local Tab = Groupbox.Tab
-        local BoxHolder = Groupbox.BoxHolder
-
-        local Background = Library:MakeOutline(BoxHolder, Library.CornerRadius)
-        Background.Size = UDim2.fromScale(1, 0)
-        Background.Visible = false
-        Library:UpdateDPI(Background, {
-            Size = false,
-        })
+        local Container = Groupbox.Container
 
         local DepboxContainer
         local DepboxList
 
         do
             DepboxContainer = New("Frame", {
-                BackgroundColor3 = "BackgroundColor",
-                Position = UDim2.fromOffset(2, 2),
-                Size = UDim2.new(1, -4, 1, -4),
-                Parent = Background,
-            })
-            New("UICorner", {
-                CornerRadius = UDim.new(0, Library.CornerRadius - 1),
-                Parent = DepboxContainer,
+                BackgroundTransparency = 1,
+                Size = UDim2.fromScale(1, 1),
+                Visible = false,
+                Parent = Container,
             })
 
             DepboxList = New("UIListLayout", {
                 Padding = UDim.new(0, 8),
-                Parent = DepboxContainer,
-            })
-            New("UIPadding", {
-                PaddingBottom = UDim.new(0, 7),
-                PaddingLeft = UDim.new(0, 7),
-                PaddingRight = UDim.new(0, 7),
-                PaddingTop = UDim.new(0, 7),
                 Parent = DepboxContainer,
             })
         end
@@ -4034,36 +4140,36 @@ do
             Visible = false,
             Dependencies = {},
 
-            BoxHolder = BoxHolder,
-            Holder = Background,
+            Holder = DepboxContainer,
             Container = DepboxContainer,
 
-            Tab = Tab,
             Elements = {},
+            DependencyBoxes = {},
         }
 
         function Depbox:Resize()
-            Background.Size = UDim2.new(1, 0, 0, DepboxList.AbsoluteContentSize.Y + 18 * Library.DPIScale)
+            DepboxContainer.Size = UDim2.new(1, 0, 0, DepboxList.AbsoluteContentSize.Y * Library.DPIScale)
+            Groupbox:Resize()
         end
 
-        function Depbox:Update()
+        function Depbox:Update(CancelSearch)
             for _, Dependency in pairs(Depbox.Dependencies) do
                 local Element = Dependency[1]
                 local Value = Dependency[2]
 
                 if Element.Type == "Toggle" and Element.Value ~= Value then
-                    Background.Visible = false
+                    DepboxContainer.Visible = false
                     Depbox.Visible = false
                     return
                 end
             end
 
             Depbox.Visible = true
-            if Library.Searching then
-                Library:UpdateSearch(Library.SearchText)
-            else
-                Background.Visible = true
+            DepboxContainer.Visible = true
+            if not Library.Searching then
                 Depbox:Resize()
+            elseif not CancelSearch then
+                Library:UpdateSearch(Library.SearchText)
             end
         end
 
@@ -4078,11 +4184,113 @@ do
             Depbox:Update()
         end
 
+        DepboxContainer:GetPropertyChangedSignal("Visible"):Connect(function()
+            Depbox:Resize()
+        end)
+
         setmetatable(Depbox, BaseGroupbox)
 
-        table.insert(Tab.Dependencyboxes, Depbox)
+        table.insert(Groupbox.DependencyBoxes, Depbox)
+        table.insert(Library.DependencyBoxes, Depbox)
 
         return Depbox
+    end
+
+    function Funcs:AddDependencyGroupbox()
+        local Groupbox = self
+        local Tab = Groupbox.Tab
+        local BoxHolder = Groupbox.BoxHolder
+
+        local Background = Library:MakeOutline(BoxHolder, Library.CornerRadius)
+        Background.Size = UDim2.fromScale(1, 0)
+        Background.Visible = false
+        Library:UpdateDPI(Background, {
+            Size = false,
+        })
+
+        local DepGroupboxContainer
+        local DepGroupboxList
+
+        do
+            DepGroupboxContainer = New("Frame", {
+                BackgroundColor3 = "BackgroundColor",
+                Position = UDim2.fromOffset(2, 2),
+                Size = UDim2.new(1, -4, 1, -4),
+                Parent = Background,
+            })
+            New("UICorner", {
+                CornerRadius = UDim.new(0, Library.CornerRadius - 1),
+                Parent = DepGroupboxContainer,
+            })
+
+            DepGroupboxList = New("UIListLayout", {
+                Padding = UDim.new(0, 8),
+                Parent = DepGroupboxContainer,
+            })
+            New("UIPadding", {
+                PaddingBottom = UDim.new(0, 7),
+                PaddingLeft = UDim.new(0, 7),
+                PaddingRight = UDim.new(0, 7),
+                PaddingTop = UDim.new(0, 7),
+                Parent = DepGroupboxContainer,
+            })
+        end
+
+        local DepGroupbox = {
+            Visible = false,
+            Dependencies = {},
+
+            BoxHolder = BoxHolder,
+            Holder = Background,
+            Container = DepGroupboxContainer,
+
+            Tab = Tab,
+            Elements = {},
+            DependencyBoxes = {},
+        }
+
+        function DepGroupbox:Resize()
+            Background.Size = UDim2.new(1, 0, 0, DepGroupboxList.AbsoluteContentSize.Y + 18 * Library.DPIScale)
+        end
+
+        function DepGroupbox:Update(CancelSearch)
+            for _, Dependency in pairs(DepGroupbox.Dependencies) do
+                local Element = Dependency[1]
+                local Value = Dependency[2]
+
+                if Element.Type == "Toggle" and Element.Value ~= Value then
+                    Background.Visible = false
+                    DepGroupbox.Visible = false
+                    return
+                end
+            end
+
+            DepGroupbox.Visible = true
+            if not Library.Searching then
+                Background.Visible = true
+                DepGroupbox:Resize()
+            elseif not CancelSearch then
+                Library:UpdateSearch(Library.SearchText)
+            end
+        end
+
+        function DepGroupbox:SetupDependencies(Dependencies)
+            for _, Dependency in pairs(Dependencies) do
+                assert(typeof(Dependency) == "table", "Dependency should be a table.")
+                assert(Dependency[1] ~= nil, "Dependency is missing element.")
+                assert(Dependency[2] ~= nil, "Dependency is missing expected value.")
+            end
+
+            DepGroupbox.Dependencies = Dependencies
+            DepGroupbox:Update()
+        end
+
+        setmetatable(DepGroupbox, BaseGroupbox)
+
+        table.insert(Tab.DependencyGroupboxes, DepGroupbox)
+        table.insert(Library.DependencyBoxes, DepGroupbox)
+
+        return DepGroupbox
     end
 
     BaseGroupbox.__index = Funcs
@@ -4802,7 +5010,7 @@ function Library:CreateWindow(WindowInfo)
         local Tab = {
             Groupboxes = {},
             Tabboxes = {},
-            Dependencyboxes = {},
+            DependencyGroupboxes = {},
             Sides = {
                 TabLeft,
                 TabRight,
@@ -4971,6 +5179,7 @@ function Library:CreateWindow(WindowInfo)
                 Container = GroupboxContainer,
 
                 Tab = Tab,
+                DependencyBoxes = {},
                 Elements = {},
             }
 
@@ -5089,6 +5298,7 @@ function Library:CreateWindow(WindowInfo)
 
                     Tab = Tab,
                     Elements = {},
+                    DependencyBoxes = {},
                 }
 
                 function Tab:Show()
