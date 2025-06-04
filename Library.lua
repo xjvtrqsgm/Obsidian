@@ -4332,18 +4332,22 @@ function Library:Notify(...)
         Data.Time = Info.Time or 5
         Data.SoundId = Info.SoundId
         Data.Steps = Info.Steps
+        Data.Persist = Info.Persist
     else
         Data.Description = tostring(Info)
         Data.Time = select(2, ...) or 5
         Data.SoundId = select(3, ...)
     end
+    Data.Destroyed = false
 
-    local DeletedTime = false
+    local DeletedInstance = false
+    local DeleteConnection = nil
     if typeof(Data.Time) == "Instance" then
-        local Con
-        Con = Data.Time.Destroying:Connect(function()
-            DeletedTime = true
-            Con:Disconnect()
+        DeleteConnection = Data.Time.Destroying:Connect(function()
+            DeletedInstance = true
+
+            DeleteConnection:Disconnect()
+            DeleteConnection = nil
         end)
     end
 
@@ -4476,12 +4480,29 @@ function Library:Notify(...)
         end
     end
 
+    function Data:Destroy()
+        Data.Destroyed = true
+        if DeleteConnection then
+            DeleteConnection:Disconnect()
+        end
+
+        TweenService
+            :Create(Background, Library.NotifyTweenInfo, {
+                Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -6, 0, -2) or UDim2.new(1, 6, 0, -2),
+            })
+            :Play()
+        task.delay(Library.NotifyTweenInfo.Time, function()
+            Library.Notifications[FakeBackground] = nil
+            FakeBackground:Destroy()
+        end)
+    end
+
     Data:Resize()
 
     local TimerHolder = New("Frame", {
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 7),
-        Visible = typeof(Data.Time) ~= "Instance" or typeof(Data.Steps) == "number",
+        Visible = (Data.Persist ~= true and typeof(Data.Time) ~= "Instance") or typeof(Data.Steps) == "number",
         Parent = Holder,
     })
     local TimerBar = New("Frame", {
@@ -4518,10 +4539,12 @@ function Library:Notify(...)
     }):Play()
 
     task.delay(Library.NotifyTweenInfo.Time, function()
-        if typeof(Data.Time) == "Instance" then
+        if Data.Persist then
+            return
+        elseif typeof(Data.Time) == "Instance" then
             repeat
                 task.wait()
-            until DeletedTime == true
+            until DeletedInstance or Data.Destroyed
         else
             TweenService
                 :Create(TimerFill, TweenInfo.new(Data.Time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
@@ -4531,15 +4554,9 @@ function Library:Notify(...)
             task.wait(Data.Time)
         end
 
-        TweenService
-            :Create(Background, Library.NotifyTweenInfo, {
-                Position = Library.NotifySide:lower() == "left" and UDim2.new(-1, -6, 0, -2) or UDim2.new(1, 6, 0, -2),
-            })
-            :Play()
-        task.delay(Library.NotifyTweenInfo.Time, function()
-            Library.Notifications[FakeBackground] = nil
-            FakeBackground:Destroy()
-        end)
+        if not Data.Destroyed then
+            Data:Destroy()
+        end
     end)
 
     return Data
