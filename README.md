@@ -92,7 +92,7 @@ local MainTab = Window:AddTab("Main", "home") -- Second parameter is the icon na
 
 | Method | Description |
 | --- | --- |
-| `Window:AddTab(name, icon)` | Adds a new tab with the given name and optional icon |
+| `Window:AddTab(name, iconName)` | Adds a new tab with the given name and optional icon |
 | `Window:AddKeyTab(name)` | Adds a special tab for key input |
 | `Tab:UpdateWarningBox({Title = "Warning", Text = "Example", Visible = true})` | Updates the warning box in a tab |
 
@@ -101,16 +101,16 @@ local MainTab = Window:AddTab("Main", "home") -- Second parameter is the icon na
 Groupboxes are containers for UI elements within tabs. They help organize elements into sections.
 
 ```lua
-local LeftGroupbox = MainTab:AddLeftGroupbox("Settings")
-local RightGroupbox = MainTab:AddRightGroupbox("Information")
+local LeftGroupbox = MainTab:AddLeftGroupbox("Settings", "wrench")
+local RightGroupbox = MainTab:AddRightGroupbox("Information", "info")
 ```
 
 #### Methods
 
 | Method | Description |
 | --- | --- |
-| `Tab:AddLeftGroupbox(name)` | Adds a groupbox on the left side |
-| `Tab:AddRightGroupbox(name)` | Adds a groupbox on the right side |
+| `Tab:AddLeftGroupbox(name, iconName)` | Adds a groupbox on the left side |
+| `Tab:AddRightGroupbox(name, iconName)` | Adds a groupbox on the right side |
 | `Groupbox:Resize()` | Manually resizes the groupbox (rarely needed) |
 
 ### Tabboxes
