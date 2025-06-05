@@ -348,7 +348,7 @@ local ThemeManager = {} do
 
     function ThemeManager:CreateGroupBox(tab)
         assert(self.Library, "Must set ThemeManager.Library first!")
-        return tab:AddLeftGroupbox("Themes")
+        return tab:AddLeftGroupbox("Themes", "paintbrush")
     end
 
     function ThemeManager:ApplyToTab(tab)
