@@ -637,7 +637,7 @@ Tabs.Key:AddKeyBox(function(Success, ReceivedKey)
 end)
 
 -- UI Settings
-local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu")
+local MenuGroup = Tabs["UI Settings"]:AddLeftGroupbox("Menu", "wrench")
 
 MenuGroup:AddToggle("KeybindMenuOpen", {
 	Default = Library.KeybindFrame.Visible,
