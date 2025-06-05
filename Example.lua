@@ -58,19 +58,19 @@ WarningTab:UpdateWarningBox({
 ]]
 
 -- Groupbox and Tabbox inherit the same functions
--- except Tabboxes you have to call the functions on a tab (Tabbox:AddTab(name))
-local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Groupbox")
+-- except Tabboxes you have to call the functions on a tab (Tabbox:AddTab(Name))
+local LeftGroupBox = Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
 
 -- We can also get our Main tab via the following code:
--- local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox('Groupbox')
+-- local LeftGroupBox = Window.Tabs.Main:AddLeftGroupbox("Groupbox", "boxes")
 
 -- Tabboxes are a tiny bit different, but here's a basic example:
 --[[
 
 local TabBox = Tabs.Main:AddLeftTabbox() -- Add Tabbox on left side
 
-local Tab1 = TabBox:AddTab('Tab 1')
-local Tab2 = TabBox:AddTab('Tab 2')
+local Tab1 = TabBox:AddTab("Tab 1")
+local Tab2 = TabBox:AddTab("Tab 2")
 
 -- You can now call AddToggle, etc on the tabs you added to the Tabbox
 ]]
