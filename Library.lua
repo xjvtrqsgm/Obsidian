@@ -855,6 +855,10 @@ function Library:Validate(Table: { [string]: any }, Template: { [string]: any })
     end
 
     for k, v in pairs(Template) do
+        if typeof(k) == "number" then
+            continue
+        end
+
         if typeof(v) == "table" then
             Table[k] = Library:Validate(Table[k], v)
         elseif Table[k] == nil then
