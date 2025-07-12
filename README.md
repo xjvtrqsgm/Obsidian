@@ -3,6 +3,7 @@
 ![Example Image](Example.png?raw=true)
 
 ## Table of Contents
+
 - [Getting Started](#getting-started)
 - [Icon Information](#icon-information)
 - [Core Components](#core-components)
@@ -62,23 +63,23 @@ The Window is the main container for your UI. You can create one using `Library:
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Title | string | "No Title" | The title displayed at the top of the window |
-| Footer | string | "No Footer" | The text displayed at the bottom of the window |
-| Position | UDim2 | UDim2.fromOffset(6, 6) | The initial position of the window |
-| Size | UDim2 | UDim2.fromOffset(720, 600) | The size of the window |
-| Center | boolean | true | Whether to center the window on the screen |
-| AutoShow | boolean | true | Whether to show the window immediately |
-| ToggleKeybind | Enum.KeyCode | Enum.KeyCode.RightControl | The keybind to toggle the UI |
-| NotifySide | string | "Right" | The side to show notifications ("Left" or "Right") |
-| ShowCustomCursor | boolean | true | Whether to show a custom cursor |
-| Font | Enum.Font | Enum.Font.Code | The font to use for text |
-| CornerRadius | number | 4 | The corner radius for UI elements |
-| Icon | string/ID | nil | Optional icon for the window |
-| IconSize | UDim2 | UDim2.fromOffset(30, 30) | Size of the icon if provided |
-| Resizable | boolean | true | Whether the window can be resized |
-| MobileButtonsSide | string | "Left" | Side to place mobile buttons ("Left" or "Right") |
+| Property          | Type         | Default                    | Description                                        |
+| ----------------- | ------------ | -------------------------- | -------------------------------------------------- |
+| Title             | string       | "No Title"                 | The title displayed at the top of the window       |
+| Footer            | string       | "No Footer"                | The text displayed at the bottom of the window     |
+| Position          | UDim2        | UDim2.fromOffset(6, 6)     | The initial position of the window                 |
+| Size              | UDim2        | UDim2.fromOffset(720, 600) | The size of the window                             |
+| Center            | boolean      | true                       | Whether to center the window on the screen         |
+| AutoShow          | boolean      | true                       | Whether to show the window immediately             |
+| ToggleKeybind     | Enum.KeyCode | Enum.KeyCode.RightControl  | The keybind to toggle the UI                       |
+| NotifySide        | string       | "Right"                    | The side to show notifications ("Left" or "Right") |
+| ShowCustomCursor  | boolean      | true                       | Whether to show a custom cursor                    |
+| Font              | Enum.Font    | Enum.Font.Code             | The font to use for text                           |
+| CornerRadius      | number       | 4                          | The corner radius for UI elements                  |
+| Icon              | string/ID    | nil                        | Optional icon for the window                       |
+| IconSize          | UDim2        | UDim2.fromOffset(30, 30)   | Size of the icon if provided                       |
+| Resizable         | boolean      | true                       | Whether the window can be resized                  |
+| MobileButtonsSide | string       | "Left"                     | Side to place mobile buttons ("Left" or "Right")   |
 
 ### Tabs
 
@@ -90,11 +91,11 @@ local MainTab = Window:AddTab("Main", "home") -- Second parameter is the icon na
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Window:AddTab(name, iconName)` | Adds a new tab with the given name and optional icon |
-| `Window:AddKeyTab(name)` | Adds a special tab for key input |
-| `Tab:UpdateWarningBox({Title = "Warning", Text = "Example", Visible = true})` | Updates the warning box in a tab |
+| Method                                                                        | Description                                          |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `Window:AddTab(name, iconName)`                                               | Adds a new tab with the given name and optional icon |
+| `Window:AddKeyTab(name)`                                                      | Adds a special tab for key input                     |
+| `Tab:UpdateWarningBox({Title = "Warning", Text = "Example", Visible = true})` | Updates the warning box in a tab                     |
 
 ### Groupboxes
 
@@ -107,11 +108,11 @@ local RightGroupbox = MainTab:AddRightGroupbox("Information", "info")
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Tab:AddLeftGroupbox(name, iconName)` | Adds a groupbox on the left side |
-| `Tab:AddRightGroupbox(name, iconName)` | Adds a groupbox on the right side |
-| `Groupbox:Resize()` | Manually resizes the groupbox (rarely needed) |
+| Method                                 | Description                                   |
+| -------------------------------------- | --------------------------------------------- |
+| `Tab:AddLeftGroupbox(name, iconName)`  | Adds a groupbox on the left side              |
+| `Tab:AddRightGroupbox(name, iconName)` | Adds a groupbox on the right side             |
+| `Groupbox:Resize()`                    | Manually resizes the groupbox (rarely needed) |
 
 ### Tabboxes
 
@@ -125,11 +126,11 @@ local Tab2 = Tabbox:AddTab("Advanced")
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Tab:AddLeftTabbox(name)` | Adds a tabbox on the left side |
+| Method                     | Description                     |
+| -------------------------- | ------------------------------- |
+| `Tab:AddLeftTabbox(name)`  | Adds a tabbox on the left side  |
 | `Tab:AddRightTabbox(name)` | Adds a tabbox on the right side |
-| `Tabbox:AddTab(name)` | Adds a new tab to the tabbox |
+| `Tabbox:AddTab(name)`      | Adds a new tab to the tabbox    |
 
 ## UI Elements
 
@@ -147,9 +148,9 @@ local WrappedLabel = Groupbox:AddLabel({
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Label:SetText(text)` | Updates the label's text |
+| Method                      | Description              |
+| --------------------------- | ------------------------ |
+| `Label:SetText(text)`       | Updates the label's text |
 | `Label:SetVisible(boolean)` | Shows or hides the label |
 
 ### Buttons
@@ -176,24 +177,24 @@ Button:AddButton({
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | "Button" | The button's text |
-| Func | function | function() end | The function to call when clicked |
-| DoubleClick | boolean | false | Whether the button needs double-click |
-| Tooltip | string | nil | Tooltip text shown on hover |
-| DisabledTooltip | string | nil | Tooltip shown when disabled |
-| Risky | boolean | false | Displays text in red to indicate risky action |
-| Disabled | boolean | false | Whether the button is disabled |
-| Visible | boolean | true | Whether the button is visible |
+| Property        | Type     | Default        | Description                                   |
+| --------------- | -------- | -------------- | --------------------------------------------- |
+| Text            | string   | "Button"       | The button's text                             |
+| Func            | function | function() end | The function to call when clicked             |
+| DoubleClick     | boolean  | false          | Whether the button needs double-click         |
+| Tooltip         | string   | nil            | Tooltip text shown on hover                   |
+| DisabledTooltip | string   | nil            | Tooltip shown when disabled                   |
+| Risky           | boolean  | false          | Displays text in red to indicate risky action |
+| Disabled        | boolean  | false          | Whether the button is disabled                |
+| Visible         | boolean  | true           | Whether the button is visible                 |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Button:SetText(text)` | Updates the button's text |
+| Method                        | Description                    |
+| ----------------------------- | ------------------------------ |
+| `Button:SetText(text)`        | Updates the button's text      |
 | `Button:SetDisabled(boolean)` | Enables or disables the button |
-| `Button:SetVisible(boolean)` | Shows or hides the button |
+| `Button:SetVisible(boolean)`  | Shows or hides the button      |
 
 ### Toggles & Checkboxes
 
@@ -227,26 +228,26 @@ local MyCheckbox = Groupbox:AddCheckbox("MyCheckbox", {
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | "Toggle" | The toggle's text |
-| Default | boolean | false | The initial state |
-| Tooltip | string | nil | Tooltip text shown on hover |
-| DisabledTooltip | string | nil | Tooltip shown when disabled |
-| Callback | function | function() end | Called when the toggle changes |
-| Risky | boolean | false | Displays text in red to indicate risky action |
-| Disabled | boolean | false | Whether the toggle is disabled |
-| Visible | boolean | true | Whether the toggle is visible |
+| Property        | Type     | Default        | Description                                   |
+| --------------- | -------- | -------------- | --------------------------------------------- |
+| Text            | string   | "Toggle"       | The toggle's text                             |
+| Default         | boolean  | false          | The initial state                             |
+| Tooltip         | string   | nil            | Tooltip text shown on hover                   |
+| DisabledTooltip | string   | nil            | Tooltip shown when disabled                   |
+| Callback        | function | function() end | Called when the toggle changes                |
+| Risky           | boolean  | false          | Displays text in red to indicate risky action |
+| Disabled        | boolean  | false          | Whether the toggle is disabled                |
+| Visible         | boolean  | true           | Whether the toggle is visible                 |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Toggle:SetValue(boolean)` | Sets the toggle value |
-| `Toggle:SetText(text)` | Updates the toggle's text |
+| Method                        | Description                    |
+| ----------------------------- | ------------------------------ |
+| `Toggle:SetValue(boolean)`    | Sets the toggle value          |
+| `Toggle:SetText(text)`        | Updates the toggle's text      |
 | `Toggle:SetDisabled(boolean)` | Enables or disables the toggle |
-| `Toggle:SetVisible(boolean)` | Shows or hides the toggle |
-| `Toggle:OnChanged(function)` | Adds another callback function |
+| `Toggle:SetVisible(boolean)`  | Shows or hides the toggle      |
+| `Toggle:OnChanged(function)`  | Adds another callback function |
 
 ### Inputs
 
@@ -267,32 +268,32 @@ local Input = Groupbox:AddInput("MyInput", {
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | "Input" | The input's label text |
-| Default | string | "" | The initial value |
-| Numeric | boolean | false | Whether to allow only numeric input |
-| Finished | boolean | false | Whether to call the callback only when Enter is pressed |
-| ClearTextOnFocus | boolean | true | Whether to clear the text when focused |
-| Placeholder | string | "" | Placeholder text when empty |
-| AllowEmpty | boolean | true | Whether to allow empty input |
-| EmptyReset | string | "---" | Value to use when empty if AllowEmpty is false |
-| MaxLength | number | nil | Maximum character length |
-| Tooltip | string | nil | Tooltip text shown on hover |
-| DisabledTooltip | string | nil | Tooltip shown when disabled |
-| Callback | function | function() end | Called when the input changes |
-| Disabled | boolean | false | Whether the input is disabled |
-| Visible | boolean | true | Whether the input is visible |
+| Property         | Type     | Default        | Description                                             |
+| ---------------- | -------- | -------------- | ------------------------------------------------------- |
+| Text             | string   | "Input"        | The input's label text                                  |
+| Default          | string   | ""             | The initial value                                       |
+| Numeric          | boolean  | false          | Whether to allow only numeric input                     |
+| Finished         | boolean  | false          | Whether to call the callback only when Enter is pressed |
+| ClearTextOnFocus | boolean  | true           | Whether to clear the text when focused                  |
+| Placeholder      | string   | ""             | Placeholder text when empty                             |
+| AllowEmpty       | boolean  | true           | Whether to allow empty input                            |
+| EmptyReset       | string   | "---"          | Value to use when empty if AllowEmpty is false          |
+| MaxLength        | number   | nil            | Maximum character length                                |
+| Tooltip          | string   | nil            | Tooltip text shown on hover                             |
+| DisabledTooltip  | string   | nil            | Tooltip shown when disabled                             |
+| Callback         | function | function() end | Called when the input changes                           |
+| Disabled         | boolean  | false          | Whether the input is disabled                           |
+| Visible          | boolean  | true           | Whether the input is visible                            |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Input:SetValue(text)` | Sets the input value |
-| `Input:SetText(text)` | Updates the input's label text |
-| `Input:SetDisabled(boolean)` | Enables or disables the input |
-| `Input:SetVisible(boolean)` | Shows or hides the input |
-| `Input:OnChanged(function)` | Adds another callback function |
+| Method                       | Description                    |
+| ---------------------------- | ------------------------------ |
+| `Input:SetValue(text)`       | Sets the input value           |
+| `Input:SetText(text)`        | Updates the input's label text |
+| `Input:SetDisabled(boolean)` | Enables or disables the input  |
+| `Input:SetVisible(boolean)`  | Shows or hides the input       |
+| `Input:OnChanged(function)`  | Adds another callback function |
 
 ### Sliders
 
@@ -314,36 +315,36 @@ local Slider = Groupbox:AddSlider("MySlider", {
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | "Slider" | The slider's text |
-| Default | number | 0 | The initial value |
-| Min | number | 0 | The minimum value |
-| Max | number | 100 | The maximum value |
-| Rounding | number | 0 | Decimal places to round to |
-| Compact | boolean | false | Whether to use compact mode |
-| HideMax | boolean | false | Whether to hide the max value in display |
-| Prefix | string | "" | Text before the value |
-| Suffix | string | "" | Text after the value |
-| Tooltip | string | nil | Tooltip text shown on hover |
-| DisabledTooltip | string | nil | Tooltip shown when disabled |
-| Callback | function | function() end | Called when the slider changes |
-| Disabled | boolean | false | Whether the slider is disabled |
-| Visible | boolean | true | Whether the slider is visible |
+| Property        | Type     | Default        | Description                              |
+| --------------- | -------- | -------------- | ---------------------------------------- |
+| Text            | string   | "Slider"       | The slider's text                        |
+| Default         | number   | 0              | The initial value                        |
+| Min             | number   | 0              | The minimum value                        |
+| Max             | number   | 100            | The maximum value                        |
+| Rounding        | number   | 0              | Decimal places to round to               |
+| Compact         | boolean  | false          | Whether to use compact mode              |
+| HideMax         | boolean  | false          | Whether to hide the max value in display |
+| Prefix          | string   | ""             | Text before the value                    |
+| Suffix          | string   | ""             | Text after the value                     |
+| Tooltip         | string   | nil            | Tooltip text shown on hover              |
+| DisabledTooltip | string   | nil            | Tooltip shown when disabled              |
+| Callback        | function | function() end | Called when the slider changes           |
+| Disabled        | boolean  | false          | Whether the slider is disabled           |
+| Visible         | boolean  | true           | Whether the slider is visible            |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Slider:SetValue(number)` | Sets the slider value |
-| `Slider:SetText(text)` | Updates the slider's text |
-| `Slider:SetMin(number)` | Sets the minimum value |
-| `Slider:SetMax(number)` | Sets the maximum value |
+| Method                        | Description                    |
+| ----------------------------- | ------------------------------ |
+| `Slider:SetValue(number)`     | Sets the slider value          |
+| `Slider:SetText(text)`        | Updates the slider's text      |
+| `Slider:SetMin(number)`       | Sets the minimum value         |
+| `Slider:SetMax(number)`       | Sets the maximum value         |
 | `Slider:SetDisabled(boolean)` | Enables or disables the slider |
-| `Slider:SetVisible(boolean)` | Shows or hides the slider |
-| `Slider:SetPrefix(text)` | Sets the prefix text |
-| `Slider:SetSuffix(text)` | Sets the suffix text |
-| `Slider:OnChanged(function)` | Adds another callback function |
+| `Slider:SetVisible(boolean)`  | Shows or hides the slider      |
+| `Slider:SetPrefix(text)`      | Sets the prefix text           |
+| `Slider:SetSuffix(text)`      | Sets the suffix text           |
+| `Slider:OnChanged(function)`  | Adds another callback function |
 
 ### Dropdowns
 
@@ -390,45 +391,45 @@ local PlayerDropdown = Groupbox:AddDropdown("PlayerDropdown", {
 
 -- Team dropdown (automatically updates with teams)
 local TeamDropdown = Groupbox:AddDropdown("TeamDropdown", {
-    SpecialType = "Team", 
+    SpecialType = "Team",
     Text = "Select Team"
 })
 ```
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | nil | The dropdown's label text |
-| Values | table | {} | List of selectable values |
-| Default | any/table | nil | Default selected value or values for multi-select |
-| Multi | boolean | false | Whether multiple values can be selected |
-| AllowNull | boolean | false | Whether no selection is allowed |
-| Searchable | boolean | false | Whether to allow searching in dropdown |
-| MaxVisibleDropdownItems | number | 8 | Maximum number of visible items |
-| SpecialType | string | nil | Special types: "Player" or "Team" |
-| ExcludeLocalPlayer | boolean | false | For Player type, excludes local player |
-| FormatDisplayValue | function | nil | Function to format displayed values |
-| DisabledValues | table | {} | Values that cannot be selected |
-| Tooltip | string | nil | Tooltip text shown on hover |
-| DisabledTooltip | string | nil | Tooltip shown when disabled |
-| Callback | function | function() end | Called when selection changes |
-| Disabled | boolean | false | Whether the dropdown is disabled |
-| Visible | boolean | true | Whether the dropdown is visible |
+| Property                | Type      | Default        | Description                                       |
+| ----------------------- | --------- | -------------- | ------------------------------------------------- |
+| Text                    | string    | nil            | The dropdown's label text                         |
+| Values                  | table     | {}             | List of selectable values                         |
+| Default                 | any/table | nil            | Default selected value or values for multi-select |
+| Multi                   | boolean   | false          | Whether multiple values can be selected           |
+| AllowNull               | boolean   | false          | Whether no selection is allowed                   |
+| Searchable              | boolean   | false          | Whether to allow searching in dropdown            |
+| MaxVisibleDropdownItems | number    | 8              | Maximum number of visible items                   |
+| SpecialType             | string    | nil            | Special types: "Player" or "Team"                 |
+| ExcludeLocalPlayer      | boolean   | false          | For Player type, excludes local player            |
+| FormatDisplayValue      | function  | nil            | Function to format displayed values               |
+| DisabledValues          | table     | {}             | Values that cannot be selected                    |
+| Tooltip                 | string    | nil            | Tooltip text shown on hover                       |
+| DisabledTooltip         | string    | nil            | Tooltip shown when disabled                       |
+| Callback                | function  | function() end | Called when selection changes                     |
+| Disabled                | boolean   | false          | Whether the dropdown is disabled                  |
+| Visible                 | boolean   | true           | Whether the dropdown is visible                   |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Dropdown:SetValue(value)` | Sets the selected value(s) |
-| `Dropdown:SetValues(table)` | Replaces all dropdown values |
-| `Dropdown:AddValues(value/table)` | Adds new values to the dropdown |
-| `Dropdown:SetDisabledValues(table)` | Sets which values are disabled |
-| `Dropdown:AddDisabledValues(value/table)` | Adds values to disabled list |
-| `Dropdown:SetText(text)` | Updates the dropdown's label text |
-| `Dropdown:SetDisabled(boolean)` | Enables or disables the dropdown |
-| `Dropdown:SetVisible(boolean)` | Shows or hides the dropdown |
-| `Dropdown:OnChanged(function)` | Adds another callback function |
+| Method                                    | Description                       |
+| ----------------------------------------- | --------------------------------- |
+| `Dropdown:SetValue(value)`                | Sets the selected value(s)        |
+| `Dropdown:SetValues(table)`               | Replaces all dropdown values      |
+| `Dropdown:AddValues(value/table)`         | Adds new values to the dropdown   |
+| `Dropdown:SetDisabledValues(table)`       | Sets which values are disabled    |
+| `Dropdown:AddDisabledValues(value/table)` | Adds values to disabled list      |
+| `Dropdown:SetText(text)`                  | Updates the dropdown's label text |
+| `Dropdown:SetDisabled(boolean)`           | Enables or disables the dropdown  |
+| `Dropdown:SetVisible(boolean)`            | Shows or hides the dropdown       |
+| `Dropdown:OnChanged(function)`            | Adds another callback function    |
 
 ### Keybinds
 
@@ -446,10 +447,10 @@ local Keybind = MyToggle:AddKeyPicker("MyKeybind", {
     Default = "F",
     Text = "Example Keybind",
     Mode = "Toggle", -- Options: "Toggle", "Hold", "Always"
-    
+
     -- Sets the toggle's value according to the keybind state if Mode is Toggle
     SyncToggleState = false,
-    
+
     Callback = function(Value)
         print("Keybind pressed, value:", Value)
     end
@@ -458,28 +459,28 @@ local Keybind = MyToggle:AddKeyPicker("MyKeybind", {
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Text | string | "KeyPicker" | The keybind's text |
-| Default | string | "None" | The initial key |
-| Mode | string | "Toggle" | Operation mode ("Toggle", "Hold", "Always") |
-| SyncToggleState | boolean | false | Whether to sync with parent toggle |
-| Modes | table | {"Always", "Toggle", "Hold"} | Available modes |
-| NoUI | boolean | false | Whether to hide from keybind menu |
-| Callback | function | function() end | Called when keybind state changes |
-| ChangedCallback | function | function() end | Called when key is changed |
-| Clicked | function | function() end | Called when clicked |
+| Property        | Type     | Default                      | Description                                 |
+| --------------- | -------- | ---------------------------- | ------------------------------------------- |
+| Text            | string   | "KeyPicker"                  | The keybind's text                          |
+| Default         | string   | "None"                       | The initial key                             |
+| Mode            | string   | "Toggle"                     | Operation mode ("Toggle", "Hold", "Always") |
+| SyncToggleState | boolean  | false                        | Whether to sync with parent toggle          |
+| Modes           | table    | {"Always", "Toggle", "Hold"} | Available modes                             |
+| NoUI            | boolean  | false                        | Whether to hide from keybind menu           |
+| Callback        | function | function() end               | Called when keybind state changes           |
+| ChangedCallback | function | function() end               | Called when key is changed                  |
+| Clicked         | function | function() end               | Called when clicked                         |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `Keybind:SetValue({key, mode})` | Sets the key and mode |
-| `Keybind:GetState()` | Returns current state (true/false) |
-| `Keybind:SetText(text)` | Updates the keybind's text |
-| `Keybind:Update()` | Updates the keybind display |
-| `Keybind:OnClick(function)` | Sets the click callback |
-| `Keybind:OnChanged(function)` | Sets the change callback |
+| Method                          | Description                        |
+| ------------------------------- | ---------------------------------- |
+| `Keybind:SetValue({key, mode})` | Sets the key and mode              |
+| `Keybind:GetState()`            | Returns current state (true/false) |
+| `Keybind:SetText(text)`         | Updates the keybind's text         |
+| `Keybind:Update()`              | Updates the keybind display        |
+| `Keybind:OnClick(function)`     | Sets the click callback            |
+| `Keybind:OnChanged(function)`   | Sets the change callback           |
 
 ### Color Pickers
 
@@ -497,7 +498,7 @@ local ColorPicker = MyToggle:AddColorPicker("MyColorPicker", {
     Default = Color3.fromRGB(255, 0, 0),
     Title = "Select Color",
     Transparency = 0, -- 0 to 1
-    
+
     Callback = function(Value)
         print("Color changed to:", Value)
     end
@@ -506,21 +507,21 @@ local ColorPicker = MyToggle:AddColorPicker("MyColorPicker", {
 
 #### Options
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| Default | Color3 | Color3.new(1, 1, 1) | The initial color |
-| Title | string | nil | Title shown in picker |
-| Transparency | number | 0 | Default transparency (0-1) |
-| Callback | function | function() end | Called when color changes |
-| Changed | function | function() end | Alternative callback |
+| Property     | Type     | Default             | Description                |
+| ------------ | -------- | ------------------- | -------------------------- |
+| Default      | Color3   | Color3.new(1, 1, 1) | The initial color          |
+| Title        | string   | nil                 | Title shown in picker      |
+| Transparency | number   | 0                   | Default transparency (0-1) |
+| Callback     | function | function() end      | Called when color changes  |
+| Changed      | function | function() end      | Alternative callback       |
 
 #### Methods
 
-| Method | Description |
-| --- | --- |
-| `ColorPicker:SetValue(hsv, transparency)` | Sets HSV color and transparency |
+| Method                                         | Description                     |
+| ---------------------------------------------- | ------------------------------- |
+| `ColorPicker:SetValue(hsv, transparency)`      | Sets HSV color and transparency |
 | `ColorPicker:SetValueRGB(color, transparency)` | Sets RGB color and transparency |
-| `ColorPicker:OnChanged(function)` | Sets the change callback |
+| `ColorPicker:OnChanged(function)`              | Sets the change callback        |
 
 ### Dividers
 
@@ -624,18 +625,22 @@ Window = Library:CreateWindow({
 
 ## Theming
 
-You can customize the appearance of the UI.
+You can customize the appearance of the UI programmatically.
+
+Setting default colors:
 
 ```lua
--- Set custom colors
-Library.Scheme = {
+ThemeManager:SetDefaultTheme({
     BackgroundColor = Color3.fromRGB(15, 15, 15),
     MainColor = Color3.fromRGB(25, 25, 25),
     AccentColor = Color3.fromRGB(125, 85, 255),
     OutlineColor = Color3.fromRGB(40, 40, 40),
     FontColor = Color3.new(1, 1, 1),
     Font = Font.fromEnum(Enum.Font.Gotham),
-}
+})
+
+-- ApplyToTab must be called after setting the default theme
+ThemeManager:ApplyToTab(Tabs["UI Settings"])
 
 -- Change font
 Library:SetFont(Enum.Font.Gotham)
@@ -648,34 +653,34 @@ Library:SetDPIScale(150) -- 150% scaling
 
 ### Library Functions
 
-| Function | Description |
-| --- | --- |
-| `Library:CreateWindow(options)` | Creates a new window |
-| `Library:Notify(message, duration, soundId)` | Shows a notification |
-| `Library:SetFont(font)` | Sets the global font |
-| `Library:SetNotifySide(side)` | Sets which side notifications appear on |
-| `Library:SetDPIScale(scale)` | Sets the UI scaling (100 = 100%) |
-| `Library:Toggle(visible)` | Shows or hides the entire UI |
-| `Library:AddTooltip(tooltip, disabledTooltip, element)` | Adds a tooltip to an element |
-| `Library:AddDraggableButton(text, callback)` | Creates a draggable button |
-| `Library:AddDraggableMenu(name)` | Creates a draggable menu |
-| `Library:OnUnload(callback)` | Sets a function to call when unloaded |
-| `Library:Unload()` | Destroys the UI completely |
+| Function                                                | Description                             |
+| ------------------------------------------------------- | --------------------------------------- |
+| `Library:CreateWindow(options)`                         | Creates a new window                    |
+| `Library:Notify(message, duration, soundId)`            | Shows a notification                    |
+| `Library:SetFont(font)`                                 | Sets the global font                    |
+| `Library:SetNotifySide(side)`                           | Sets which side notifications appear on |
+| `Library:SetDPIScale(scale)`                            | Sets the UI scaling (100 = 100%)        |
+| `Library:Toggle(visible)`                               | Shows or hides the entire UI            |
+| `Library:AddTooltip(tooltip, disabledTooltip, element)` | Adds a tooltip to an element            |
+| `Library:AddDraggableButton(text, callback)`            | Creates a draggable button              |
+| `Library:AddDraggableMenu(name)`                        | Creates a draggable menu                |
+| `Library:OnUnload(callback)`                            | Sets a function to call when unloaded   |
+| `Library:Unload()`                                      | Destroys the UI completely              |
 
 ### Global References
 
-| Variable | Description |
-| --- | --- |
-| `Library.Toggled` | Whether the UI is currently visible |
-| `Library.IsMobile` | Whether the user is on a mobile device |
-| `Library.IsRobloxFocused` | Whether the roblox window is focused |
-| `Library.CornerRadius` | The corner radius used throughout the UI |
-| `Library.NotifySide` | Which side notifications appear on |
-| `Library.ShowCustomCursor` | Whether to show the custom cursor |
-| `Library.ForceCheckbox` | Whether to always use checkboxes instead of switches |
-| `Library.ShowToggleFrameInKeybinds` | Whether to show toggle state in keybind menu |
-| `Library.NotifyOnError` | Whether to show notifications for errors |
-| `Library.ToggleKeybind` | The keybind to toggle the UI |
+| Variable                            | Description                                          |
+| ----------------------------------- | ---------------------------------------------------- |
+| `Library.Toggled`                   | Whether the UI is currently visible                  |
+| `Library.IsMobile`                  | Whether the user is on a mobile device               |
+| `Library.IsRobloxFocused`           | Whether the roblox window is focused                 |
+| `Library.CornerRadius`              | The corner radius used throughout the UI             |
+| `Library.NotifySide`                | Which side notifications appear on                   |
+| `Library.ShowCustomCursor`          | Whether to show the custom cursor                    |
+| `Library.ForceCheckbox`             | Whether to always use checkboxes instead of switches |
+| `Library.ShowToggleFrameInKeybinds` | Whether to show toggle state in keybind menu         |
+| `Library.NotifyOnError`             | Whether to show notifications for errors             |
+| `Library.ToggleKeybind`             | The keybind to toggle the UI                         |
 
 ## Examples
 
