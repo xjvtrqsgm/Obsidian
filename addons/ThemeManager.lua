@@ -297,7 +297,13 @@ do
             end
         end
 
-        finaltheme["FontFace"] = theme["FontFace"] or "Code"
+        if typeof(theme["FontFace"]) == "EnumItem" then
+            finaltheme["FontFace"] = theme["FontFace"].Name
+        elseif typeof(theme["FontFace"]) == "string" then
+            finaltheme["FontFace"] = theme["FontFace"]
+        else
+            finaltheme["FontFace"] = "Code"
+        end
 
         self.BuiltInThemes["Default"] = { 1, finaltheme }
     end
