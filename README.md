@@ -630,13 +630,15 @@ You can customize the appearance of the UI programmatically.
 Setting default colors:
 
 ```lua
+ThemeManager:SetLibrary(Library)
+
 ThemeManager:SetDefaultTheme({
     BackgroundColor = Color3.fromRGB(15, 15, 15),
     MainColor = Color3.fromRGB(25, 25, 25),
     AccentColor = Color3.fromRGB(125, 85, 255),
     OutlineColor = Color3.fromRGB(40, 40, 40),
     FontColor = Color3.new(1, 1, 1),
-    FontFace = Font.fromEnum(Enum.Font.Gotham),
+    FontFace = Enum.Font.Gotham,
 })
 
 -- ApplyToTab must be called after setting the default theme
