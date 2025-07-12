@@ -283,29 +283,44 @@ do
     end
 
     function ThemeManager:SetDefaultTheme(theme)
+        assert(self.Library, "Must set ThemeManager.Library first!")
         assert(not self.AppliedToTab, "Cannot set default theme after applying ThemeManager to a tab!")
 
-        local finaltheme = {}
+        local FinalTheme = {}
+        local LibraryScheme = {}
         local fields = { "FontColor", "MainColor", "AccentColor", "BackgroundColor", "OutlineColor" }
         for _, field in pairs(fields) do
             if typeof(theme[field]) == "Color3" then
-                finaltheme[field] = `#{theme[field]:ToHex()}`
+                FinalTheme[field] = `#{theme[field]:ToHex()}`
+                LibraryScheme[field] = theme[field]
             elseif typeof(theme[field]) == "string" then
-                finaltheme[field] = if theme[field]:sub(1, 1) == "#" then theme[field] else `#{theme[field]}`
+                FinalTheme[field] = if theme[field]:sub(1, 1) == "#" then theme[field] else `#{theme[field]}`
+                LibraryScheme[field] = Color3.fromHex(theme[field])
             else
-                finaltheme[field] = ThemeManager.BuiltInThemes["Default"][2][field]
+                FinalTheme[field] = ThemeManager.BuiltInThemes["Default"][2][field]
+                LibraryScheme[field] = Color3.fromHex(ThemeManager.BuiltInThemes["Default"][2][field])
             end
         end
 
         if typeof(theme["FontFace"]) == "EnumItem" then
-            finaltheme["FontFace"] = theme["FontFace"].Name
+            FinalTheme["FontFace"] = theme["FontFace"].Name
+            LibraryScheme["Font"] = Font.fromEnum(theme["FontFace"])
         elseif typeof(theme["FontFace"]) == "string" then
-            finaltheme["FontFace"] = theme["FontFace"]
+            FinalTheme["FontFace"] = theme["FontFace"]
+            LibraryScheme["Font"] = Font.fromEnum(Enum.Font[theme["FontFace"]])
         else
-            finaltheme["FontFace"] = "Code"
+            FinalTheme["FontFace"] = "Code"
+            LibraryScheme["Font"] = Font.fromEnum(Enum.Font.Code)
         end
 
-        self.BuiltInThemes["Default"] = { 1, finaltheme }
+        for _, field in pairs({ "Red", "Dark", "White" }) do
+            LibraryScheme[field] = self.Library.Scheme[field]
+        end
+
+        self.Library.Scheme = LibraryScheme
+        self.BuiltInThemes["Default"] = { 1, FinalTheme }
+
+        self.Library:UpdateColorsUsingRegistry()
     end
 
     function ThemeManager:SaveCustomTheme(file)
