@@ -636,7 +636,7 @@ ThemeManager:SetDefaultTheme({
     AccentColor = Color3.fromRGB(125, 85, 255),
     OutlineColor = Color3.fromRGB(40, 40, 40),
     FontColor = Color3.new(1, 1, 1),
-    Font = Font.fromEnum(Enum.Font.Gotham),
+    FontFace = Font.fromEnum(Enum.Font.Gotham),
 })
 
 -- ApplyToTab must be called after setting the default theme
