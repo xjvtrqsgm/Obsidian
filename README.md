@@ -11,6 +11,8 @@
   - [Tabs](#tabs)
   - [Groupboxes](#groupboxes)
   - [Tabboxes](#tabboxes)
+  - [Dependency Boxes](#dependency-boxes)
+  - [Dependency Groupboxes](#dependency-groupboxes)
 - [UI Elements](#ui-elements)
   - [Labels](#labels)
   - [Buttons](#buttons)
@@ -78,6 +80,7 @@ The Window is the main container for your UI. You can create one using `Library:
 | CornerRadius      | number       | 4                          | The corner radius for UI elements                  |
 | Icon              | string/ID    | nil                        | Optional icon for the window                       |
 | IconSize          | UDim2        | UDim2.fromOffset(30, 30)   | Size of the icon if provided                       |
+| BackgroundImage.  | string/ID.   | nil                        | Background image for the window                    |
 | Resizable         | boolean      | true                       | Whether the window can be resized                  |
 | MobileButtonsSide | string       | "Left"                     | Side to place mobile buttons ("Left" or "Right")   |
 
@@ -131,6 +134,62 @@ local Tab2 = Tabbox:AddTab("Advanced")
 | `Tab:AddLeftTabbox(name)`  | Adds a tabbox on the left side  |
 | `Tab:AddRightTabbox(name)` | Adds a tabbox on the right side |
 | `Tabbox:AddTab(name)`      | Adds a new tab to the tabbox    |
+
+### Dependency Boxes
+
+Dependency boxes allow you to conditionally show or hide elements contained in a groupbox based on the state of other elements.
+
+```lua
+local LeftGroupbox = MainTab:AddLeftGroupbox("Settings", "wrench")
+
+LeftGroupbox:AddToggle("EnableAudio", {
+    Text = "Enable Audio",
+    Default = false
+})
+
+local AudioSettings = LeftGroupbox:AddDependencyBox()
+
+AudioSettings:AddSlider("Volume", {
+    Text = "Volume",
+    Default = 50,
+    Min = 0,
+    Max = 100,
+    Rounding = 0
+})
+
+AudioSettings:SetupDependencies({
+    { Toggles.EnableAudio, true } -- Only show if EnableAudio is true
+})
+```
+
+### Dependency Groupboxes
+
+Dependency groupboxes allow you to conditionally show or hide entire groupboxes based on the state of other elements.
+
+```lua
+local LeftGroupbox = MainTab:AddLeftGroupbox("Settings", "wrench")
+
+LeftGroupbox:AddToggle("EnableAudio", {
+    Text = "Enable Audio",
+    Default = false
+})
+
+-- Creates a dependency groupbox on the left side since LeftGroupbox is on the left
+local DependencyGroupbox = LeftGroupbox:AddDependencyGroupbox("Audio Settings")
+
+DependencyGroupbox:AddSlider("Volume", {
+    Text = "Volume",
+    Default = 50,
+    Min = 0,
+    Max = 100,
+    Rounding = 0
+})
+
+DependencyGroupbox:SetupDependencies({
+    { Toggles.EnableAudio, true } -- Only show if EnableAudio is true
+})
+
+```
 
 ## UI Elements
 
