@@ -24,6 +24,7 @@
   - [Color Pickers](#color-pickers)
   - [Dividers](#dividers)
   - [Viewports](#viewports)
+  - [Images](#images)
 - [Additional Features](#additional-features)
   - [Notifications](#notifications)
   - [Tooltips](#tooltips)
@@ -623,6 +624,46 @@ local Viewport = Groupbox:AddViewport("MyViewport", {
 | `Viewport:SetInteractive(Interactive)` | Sets whether the viewport is interactive         |
 | `Viewport:SetHeight(height)`           | Sets the height of the viewport frame in pixels  |
 | `Viewport:Focus()`                     | Focuses the camera on the object in the viewport |
+
+### Images
+
+Images allow you to display static images in your UI.
+
+```lua
+LeftGroupBox:AddImage("MyAgaImage", {
+	Image = "http://www.roblox.com/asset/?id=135666356081915",
+    Transparency = 0,
+    Color = Color3.new(1, 1, 1),
+    RectOffset = Vector2.zero,
+    RectSize = Vector2.zero,
+    ScaleType = Enum.ScaleType.Fit,
+    Height = 200,
+})
+```
+
+#### Options
+
+| Property     | Type           | Default             | Description                                                   |
+| ------------ | -------------- | ------------------- | ------------------------------------------------------------- |
+| Image        | string         | ""                  | The image URL or asset ID to display                          |
+| Transparency | number         | 0                   | The transparency of the image (0 to 1)                        |
+| Color        | Color3         | Color3.new(1, 1, 1) | The color tint applied to the image                           |
+| RectOffset   | Vector2        | Vector2.zero        | The offset for the image rectangle                            |
+| RectSize     | Vector2        | Vector2.zero        | The size of the image rectangle                               |
+| ScaleType    | Enum.ScaleType | Enum.ScaleType.Fit  | How the image should scale within its frame (Fit, Fill, etc.) |
+| Height       | number         | 200                 | The height of the image frame in pixels                       |
+
+#### Methods
+
+| Method                          | Description                                      |
+| ------------------------------- | ------------------------------------------------ |
+| `Image:SetImage(image)`         | Sets the image URL or asset ID to display        |
+| `Image:SetTransparency(value)`  | Sets the transparency of the image (0 to 1)      |
+| `Image:SetColor(color)`         | Sets the color tint applied to the image         |
+| `Image:SetRectOffset(offset)`   | Sets the offset for the image rectangle          |
+| `Image:SetRectSize(size)`       | Sets the size of the image rectangle             |
+| `Image:SetScaleType(scaleType)` | Sets how the image should scale within its frame |
+| `Image:SetHeight(height)`       | Sets the height of the image frame in pixels     |
 
 ## Additional Features
 
