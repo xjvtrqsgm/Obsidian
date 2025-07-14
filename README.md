@@ -606,13 +606,13 @@ local Viewport = Groupbox:AddViewport("MyViewport", {
 
 #### Options
 
-| Property    | Type     | Default | Description                                                                                                |
-| ----------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
-| Object      | Instance | nil     | The 3D object to display in the viewport                                                                   |
-| Camera      | Instance | nil     | The camera used to view the object                                                                         |
-| Interactive | boolean  | false   | Whether the viewport is interactive (scrolling/pinching to zoom, right click and move mouse/swipe to move) |
-| AutoFocus   | boolean  | true    | Whether to automatically focus the camera on the object on viewport creation                               |
-| Height      | number   | 200     | Height of the viewport frame in pixels.                                                                    |
+| Property    | Type              | Default           | Description                                                                                                |
+| ----------- | ----------------- | ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| Object      | Instance          | nil               | The 3D object to display in the viewport                                                                   |
+| Camera      | Instance (Camera) | Instance (Camera) | The camera used to view the object                                                                         |
+| Interactive | boolean           | false             | Whether the viewport is interactive (scrolling/pinching to zoom, right click and move mouse/swipe to move) |
+| AutoFocus   | boolean           | true              | Whether to automatically focus the camera on the object on viewport creation                               |
+| Height      | number            | 200               | Height of the viewport frame in pixels.                                                                    |
 
 #### Methods
 
