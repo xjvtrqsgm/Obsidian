@@ -23,6 +23,7 @@
   - [Keybinds](#keybinds)
   - [Color Pickers](#color-pickers)
   - [Dividers](#dividers)
+  - [Viewports](#viewports)
 - [Additional Features](#additional-features)
   - [Notifications](#notifications)
   - [Tooltips](#tooltips)
@@ -589,6 +590,39 @@ Dividers are simple horizontal lines that separate content.
 ```lua
 Groupbox:AddDivider()
 ```
+
+### Viewports
+
+Viewports allow you to display 3D Objects in your UI.
+
+```lua
+local Viewport = Groupbox:AddViewport("MyViewport", {
+    Object = Instance.new("Part"),
+    Camera = Instance.new("Camera"),
+    Interactive = true,
+    AutoFocus = true
+})
+```
+
+#### Options
+
+| Property    | Type     | Default | Description                                                                                                |
+| ----------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| Object      | Instance | nil     | The 3D object to display in the viewport                                                                   |
+| Camera      | Instance | nil     | The camera used to view the object                                                                         |
+| Interactive | boolean  | false   | Whether the viewport is interactive (scrolling/pinching to zoom, right click and move mouse/swipe to move) |
+| AutoFocus   | boolean  | true    | Whether to automatically focus the camera on the object on viewport creation                               |
+| Height      | number   | 200     | Height of the viewport frame in pixels.                                                                    |
+
+#### Methods
+
+| Method                                 | Description                                      |
+| -------------------------------------- | ------------------------------------------------ |
+| `Viewport:SetObject(object)`           | Sets the 3D object to display in the viewport    |
+| `Viewport:SetCamera(camera)`           | Sets the camera used to view the object          |
+| `Viewport:SetInteractive(Interactive)` | Sets whether the viewport is interactive         |
+| `Viewport:SetHeight(height)`           | Sets the height of the viewport frame in pixels  |
+| `Viewport:Focus()`                     | Focuses the camera on the object in the viewport |
 
 ## Additional Features
 
