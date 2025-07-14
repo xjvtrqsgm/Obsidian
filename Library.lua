@@ -4149,6 +4149,16 @@ do
             Type = "Viewport",
         }
 
+        assert(
+            typeof(Viewport.Object) == "Instance" and (Viewport.Object:IsA("BasePart") or Viewport.Object:IsA("Model")),
+            "Instance must be a BasePart or Model."
+        )
+
+        assert(
+            typeof(Viewport.Camera) == "Instance" and Viewport.Camera:IsA("Camera"),
+            "Camera must be a valid Camera instance."
+        )
+
         local function GetModelSize(model)
             if model:IsA("BasePart") then
                 return model.Size
