@@ -631,7 +631,7 @@ Images allow you to display static images in your UI.
 
 ```lua
 LeftGroupBox:AddImage("MyAgaImage", {
-	Image = "http://www.roblox.com/asset/?id=135666356081915",
+    Image = "http://www.roblox.com/asset/?id=135666356081915",
     Transparency = 0,
     Color = Color3.new(1, 1, 1),
     RectOffset = Vector2.zero,
