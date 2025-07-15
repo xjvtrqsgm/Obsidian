@@ -1388,6 +1388,68 @@ function Library:AddDraggableMenu(Name: string)
     return Background, Container
 end
 
+--// Watermark \\--
+do
+    local WatermarkBackground = Library:MakeOutline(ScreenGui, Library.CornerRadius, 10)
+    WatermarkBackground.AutomaticSize = Enum.AutomaticSize.Y
+    WatermarkBackground.Position = UDim2.fromOffset(6, 6)
+    WatermarkBackground.Size = UDim2.fromOffset(0, 0)
+    WatermarkBackground.Visible = false
+
+    Library:UpdateDPI(WatermarkBackground, {
+        Position = false,
+        Size = false,
+    })
+
+    local Holder = New("Frame", {
+        BackgroundColor3 = "BackgroundColor",
+        Position = UDim2.fromOffset(2, 2),
+        Size = UDim2.new(1, -4, 1, -4),
+        Parent = WatermarkBackground,
+    })
+    New("UICorner", {
+        CornerRadius = UDim.new(0, Library.CornerRadius - 1),
+        Parent = Holder,
+    })
+
+    local WatermarkLabel = New("TextLabel", {
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 0, 32),
+        Position = UDim2.fromOffset(0, -8 * Library.DPIScale + 7),
+        Text = "",
+        TextSize = 15,
+        TextXAlignment = Enum.TextXAlignment.Left,
+        Parent = Holder,
+    })
+    New("UIPadding", {
+        PaddingLeft = UDim.new(0, 12),
+        PaddingRight = UDim.new(0, 12),
+        Parent = WatermarkLabel,
+    })
+
+    Library:MakeDraggable(WatermarkBackground, WatermarkLabel, true)
+
+    local function ResizeWatermark()
+        local X, Y = Library:GetTextBounds(WatermarkLabel.Text, Library.Scheme.Font, 15)
+        WatermarkBackground.Size = UDim2.fromOffset((12 + X + 12 + 4) * Library.DPIScale, Y * Library.DPIScale * 2 + 4)
+        Library:UpdateDPI(WatermarkBackground, {
+            Size = UDim2.fromOffset(12 + X + 12 + 4, Y * 2 + 4),
+        })
+    end
+
+    function Library:SetWatermarkVisibility(Visible: boolean)
+        WatermarkBackground.Visible = Visible
+        if Visible then
+            ResizeWatermark()
+        end
+    end
+
+    function Library:SetWatermark(Text: string)
+        WatermarkLabel.Text = Text
+        ResizeWatermark()
+    end
+end
+
 --// Context Menu \\--
 local CurrentMenu
 function Library:AddContextMenu(
