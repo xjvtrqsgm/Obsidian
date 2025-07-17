@@ -92,16 +92,24 @@ The Window is the main container for your UI. You can create one using `Library:
 Tabs are the primary way to organize content in your UI. You can add them with `Window:AddTab()`.
 
 ```lua
-local MainTab = Window:AddTab("Main", "home") -- Second parameter is the icon name (optional)
+local MainTab = Window:AddTab("Main", "home", "Main features")
+-- Second parameter is the optional icon name from lucide.dev, third is an optional description
+
+local UISettingsTab = Window:AddTab({
+    Name = "UI Settings",
+    Description = "Customize the UI",
+    Icon = "settings"
+})
 ```
 
 #### Methods
 
-| Method                                                                        | Description                                          |
-| ----------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `Window:AddTab(name, iconName)`                                               | Adds a new tab with the given name and optional icon |
-| `Window:AddKeyTab(name)`                                                      | Adds a special tab for key input                     |
-| `Tab:UpdateWarningBox({Title = "Warning", Text = "Example", Visible = true})` | Updates the warning box in a tab                     |
+| Method                                                                                      | Description                                                                     |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `Window:AddTab(name, iconName, description)`                                                | Adds a new tab with the given name and optional icon and a optional description |
+| `Window:AddTab({ Name = "Tab Name", Icon = "icon_name", Description = "Tab description" })` | Adds a new tab with a table containing name, icon, and description              |
+| `Window:AddKeyTab(name)`                                                                    | Adds a special tab for key input                                                |
+| `Tab:UpdateWarningBox({Title = "Warning", Text = "Example", Visible = true})`               | Updates the warning box in a tab                                                |
 
 ### Groupboxes
 
@@ -864,7 +872,7 @@ local Window = Library:CreateWindow({
 })
 
 local MainTab = Window:AddTab("Main", "home")
-local SettingsTab = Window:AddTab("Settings", "settings")
+local SettingsTab = Window:AddTab("Settings", "settings", "Customize the UI")
 
 -- Add a groupbox to the left side
 local LeftGroupbox = MainTab:AddLeftGroupbox("Features")
