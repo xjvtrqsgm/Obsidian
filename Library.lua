@@ -5235,7 +5235,7 @@ function Library:CreateWindow(WindowInfo)
             Parent = TitleHolder,
         })
 
-        --// Search Box
+        --// Top Right Bar
         local RightWrapper = New("Frame", {
             BackgroundTransparency = 1,
             AnchorPoint = Vector2.new(0, 0.5),
@@ -5253,7 +5253,7 @@ function Library:CreateWindow(WindowInfo)
         })
 
         CurrentTabInfo = New("Frame", {
-            Size = UDim2.fromScale(0.5, 1),
+            Size = UDim2.fromScale(WindowInfo.DisableSearch and 1 or 0.5, 1),
             Visible = false,
             BackgroundTransparency = 1,
             Parent = RightWrapper,
@@ -5301,6 +5301,7 @@ function Library:CreateWindow(WindowInfo)
             PlaceholderText = "Search",
             Size = UDim2.fromScale(1, 1),
             TextScaled = true,
+            Visible = not (WindowInfo.DisableSearch or false),
             Parent = RightWrapper,
         })
         New("UICorner", {

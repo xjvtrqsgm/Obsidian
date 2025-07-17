@@ -86,6 +86,7 @@ The Window is the main container for your UI. You can create one using `Library:
 | BackgroundImage.  | string/ID.   | nil                        | Background image for the window                    |
 | Resizable         | boolean      | true                       | Whether the window can be resized                  |
 | MobileButtonsSide | string       | "Left"                     | Side to place mobile buttons ("Left" or "Right")   |
+| DisableSearch     | boolean      | false                      | Whether to disable the search box                  |
 
 ### Tabs
 

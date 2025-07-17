@@ -3,6 +3,7 @@
 ```diff
 + Added Description parameter to `Window:AddTab()` method to set a description for the tab
 + Updated `Window:AddTab()` method to accept a table with Name, Icon, and Description or a table with Name, Icon (optional), and Description (optional)
++ Updated `Library:CreateWindow()`'s WindowInfo parameter to include a `DisableSearch` option to disable the search box in the window
 ```
 
 ### 15.07.2025
