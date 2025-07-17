@@ -5118,6 +5118,9 @@ function Library:CreateWindow(WindowInfo)
 
     local MainFrame
     local SearchBox
+    local CurrentTabInfo
+    local CurrentTabLabel
+    local CurrentTabDescription
     local ResizeButton
     local Tabs
     local Container
@@ -5233,14 +5236,72 @@ function Library:CreateWindow(WindowInfo)
         })
 
         --// Search Box
-        SearchBox = New("TextBox", {
+        local RightWrapper = New("Frame", {
+            BackgroundTransparency = 1,
             AnchorPoint = Vector2.new(0, 0.5),
-            BackgroundColor3 = "MainColor",
-            PlaceholderText = "Search",
             Position = UDim2.new(0.3, 8, 0.5, 0),
             Size = UDim2.new(0.7, -57, 1, -16),
-            TextScaled = true,
             Parent = TopBar,
+        })
+
+        New("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Right,
+            VerticalAlignment = Enum.VerticalAlignment.Center,
+            Padding = UDim.new(0, 8),
+            Parent = RightWrapper,
+        })
+
+        CurrentTabInfo = New("Frame", {
+            Size = UDim2.fromScale(0.5, 1),
+            Visible = false,
+            BackgroundTransparency = 1,
+            Parent = RightWrapper,
+        })
+
+        New("UIListLayout", {
+            FillDirection = Enum.FillDirection.Vertical,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            VerticalAlignment = Enum.VerticalAlignment.Center,
+            Parent = CurrentTabInfo,
+        })
+
+        New("UIPadding", {
+            PaddingBottom = UDim.new(0, 8),
+            PaddingLeft = UDim.new(0, 8),
+            PaddingRight = UDim.new(0, 8),
+            PaddingTop = UDim.new(0, 8),
+            Parent = CurrentTabInfo,
+        })
+
+        CurrentTabLabel = New("TextLabel", {
+            BackgroundTransparency = 1,
+            Size = UDim2.fromScale(1, 0),
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Text = "",
+            TextSize = 14,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            Parent = CurrentTabInfo,
+        })
+
+        CurrentTabDescription = New("TextLabel", {
+            BackgroundTransparency = 1,
+            Size = UDim2.fromScale(1, 0),
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Text = "",
+            TextWrapped = true,
+            TextSize = 14,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextTransparency = 0.5,
+            Parent = CurrentTabInfo,
+        })
+
+        SearchBox = New("TextBox", {
+            BackgroundColor3 = "MainColor",
+            PlaceholderText = "Search",
+            Size = UDim2.fromScale(1, 1),
+            TextScaled = true,
+            Parent = RightWrapper,
         })
         New("UICorner", {
             CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
@@ -5389,7 +5450,22 @@ function Library:CreateWindow(WindowInfo)
     --// Window Table \\--
     local Window = {}
 
-    function Window:AddTab(Name: string, Icon)
+    function Window:AddTab(...)
+        local Name = nil
+        local Icon = nil
+        local Description = nil
+
+        if select("#", ...) == 1 and typeof(...) == "table" then
+            local Info = select(1, ...)
+            Name = Info.Name or "Tab"
+            Icon = Info.Icon
+            Description = Info.Description
+        else
+            Name = select(1, ...)
+            Icon = select(2, ...)
+            Description = select(3, ...)
+        end
+
         local TabButton: TextButton
         local TabLabel
         local TabIcon
@@ -5964,6 +6040,14 @@ function Library:CreateWindow(WindowInfo)
                     ImageTransparency = 0,
                 }):Play()
             end
+
+            if Description then
+                CurrentTabInfo.Visible = true
+                SearchBox.Size = UDim2.fromScale(0.5, 1)
+                CurrentTabLabel.Text = Name
+                CurrentTabDescription.Text = Description
+            end
+
             TabContainer.Visible = true
 
             Library.ActiveTab = Tab
@@ -5982,6 +6066,9 @@ function Library:CreateWindow(WindowInfo)
                 }):Play()
             end
             TabContainer.Visible = false
+
+            SearchBox.Size = UDim2.fromScale(1, 1)
+            CurrentTabInfo.Visible = false
 
             Library.ActiveTab = nil
         end
