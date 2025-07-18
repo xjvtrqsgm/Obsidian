@@ -96,9 +96,9 @@ local Library = {
 
 local ObsidianImageManager = {
     Assets = {
-        TransparencyMap = {
+        TransparencyTexture = {
             RobloxId = 139785960036434,
-            Path = "Obsidian/assets/TransparencyMap.png",
+            Path = "Obsidian/assets/TransparencyTexture.png",
 
             Id = nil
         },
@@ -2210,7 +2210,7 @@ do
         })
 
         local HolderTransparency = New("ImageLabel", {
-            Image = ObsidianImageManager.GetAsset("TransparencyMap"),
+            Image = ObsidianImageManager.GetAsset("TransparencyTexture"),
             ImageTransparency = (1 - ColorPicker.Transparency),
             ScaleType = Enum.ScaleType.Tile,
             Size = UDim2.fromScale(1, 1),
@@ -2309,7 +2309,7 @@ do
         local TransparencySelector, TransparencyColor, TransparencyCursor
         if Info.Transparency then
             TransparencySelector = New("ImageButton", {
-                Image = ObsidianImageManager.GetAsset("TransparencyMap"),
+                Image = ObsidianImageManager.GetAsset("TransparencyTexture"),
                 ScaleType = Enum.ScaleType.Tile,
                 Size = UDim2.fromOffset(16, 200),
                 TileSize = UDim2.fromOffset(8, 8),
