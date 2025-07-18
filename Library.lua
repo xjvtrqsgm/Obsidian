@@ -94,6 +94,86 @@ local Library = {
     DPIRegistry = {},
 }
 
+local ObsidianImageManager = {
+    Assets = {
+        TransparencyMap = {
+            RobloxId = 139785960036434,
+            Path = "Obsidian/assets/TransparencyMap.png",
+
+            Id = nil
+        },
+        
+        SaturationMap = {
+            RobloxId = 4155801252,
+            Path = "Obsidian/assets/SaturationMap.png",
+
+            Id = nil
+        }
+    }
+}
+do
+    local BaseURL = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
+
+    local function RecursiveCreatePath(Path: string, IsFile: boolean?)
+        if not isfolder or not makefolder then return end
+
+        local Segments = Path:split("/")
+        local TraversedPath = ""
+
+        if IsFile then
+            table.remove(Segments, #Segments)
+        end
+
+        for _, Segment in ipairs(Segments) do
+            if not isfolder(TraversedPath .. Segment) then
+                makefolder(TraversedPath .. Segment)
+            end
+
+            TraversedPath = TraversedPath .. Segment .. "/"
+        end
+
+        return TraversedPath
+    end
+
+    function ObsidianImageManager.GetAsset(AssetName: string)
+        if not ObsidianImageManager.Assets[AssetName] then
+            return nil
+        end
+
+        local AssetData = ObsidianImageManager.Assets[AssetName]
+        if AssetData.Id then
+            return AssetData.Id
+        end
+
+        if getcustomasset then
+            AssetData.Id = getcustomasset(AssetData.Path)
+        else
+            AssetData.Id = `rbxassetid://{AssetData.RobloxId}`
+        end
+
+        return AssetData.Id
+    end
+
+    function ObsidianImageManager.DownloadAsset(AssetPath: string)
+        if not getcustomasset or not writefile or not isfile then
+            return
+        end
+
+        RecursiveCreatePath(AssetPath, true)
+
+        if isfile(AssetPath) then
+            return
+        end
+
+        local URLPath = AssetPath:gsub("Obsidian/", "")
+        writefile(AssetPath, game:HttpGet(`{BaseURL}{URLPath}`))
+    end
+
+    for _, Data in ObsidianImageManager.Assets do
+        ObsidianImageManager.DownloadAsset(Data.Path)
+    end
+end
+
 if RunService:IsStudio() then
     if UserInputService.TouchEnabled and not UserInputService.MouseEnabled then
         Library.IsMobile = true
@@ -2130,7 +2210,7 @@ do
         })
 
         local HolderTransparency = New("ImageLabel", {
-            Image = "rbxassetid://139785960036434",
+            Image = ObsidianImageManager.GetAsset("TransparencyMap"),
             ImageTransparency = (1 - ColorPicker.Transparency),
             ScaleType = Enum.ScaleType.Tile,
             Size = UDim2.fromScale(1, 1),
@@ -2183,7 +2263,7 @@ do
         --// Sat Map
         local SatVipMap = New("ImageButton", {
             BackgroundColor3 = ColorPicker.Value,
-            Image = "rbxassetid://4155801252",
+            Image = ObsidianImageManager.GetAsset("SaturationMap"),
             Size = UDim2.fromOffset(200, 200),
             Parent = ColorHolder,
         })
@@ -2229,7 +2309,7 @@ do
         local TransparencySelector, TransparencyColor, TransparencyCursor
         if Info.Transparency then
             TransparencySelector = New("ImageButton", {
-                Image = "rbxassetid://139785960036434",
+                Image = ObsidianImageManager.GetAsset("TransparencyMap"),
                 ScaleType = Enum.ScaleType.Tile,
                 Size = UDim2.fromOffset(16, 200),
                 TileSize = UDim2.fromOffset(8, 8),
@@ -5049,8 +5129,13 @@ function Library:Notify(...)
         TimerFill.Size = UDim2.fromScale(0, 1)
     end
     if Data.SoundId then
+        local SoundId = Data.SoundId
+        if typeof(SoundId) == "number" then
+            SoundId = `rbxassetid://{SoundId}`
+        end
+
         New("Sound", {
-            SoundId = "rbxassetid://" .. tostring(Data.SoundId):gsub("rbxassetid://", ""),
+            SoundId = SoundId,
             Volume = 3,
             PlayOnRemove = true,
             Parent = SoundService,
@@ -5215,7 +5300,7 @@ function Library:CreateWindow(WindowInfo)
 
         if WindowInfo.Icon then
             New("ImageLabel", {
-                Image = tonumber(WindowInfo.Icon) and "rbxassetid://" .. WindowInfo.Icon or WindowInfo.Icon,
+                Image = if tonumber(WindowInfo.Icon) then `rbxassetid://{WindowInfo.Icon}` else WindowInfo.Icon,
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
             })
