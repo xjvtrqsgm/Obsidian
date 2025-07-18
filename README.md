@@ -1,6 +1,6 @@
 # Obsidian UI Library
 
-![Example Image](Example.png?raw=true)
+![Example Image](assets/Example.png?raw=true)
 
 ## Table of Contents
 
