@@ -251,6 +251,7 @@ local Templates = {
         AutoShow = true,
         Center = true,
         Resizable = true,
+        SearchbarSize = UDim2.fromScale(1, 1),
         CornerRadius = 4,
         NotifySide = "Right",
         ShowCustomCursor = true,
@@ -2151,13 +2152,15 @@ do
             if KeyPicker.Mode == "Toggle" then
                 local Key = KeyPicker.Value
 
-                if SpecialKeysInput[Input.UserInputType] == Key then
-                    KeyPicker.Toggled = not KeyPicker.Toggled
-                    KeyPicker:DoClick()
-                    
-                elseif Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Key then
-                    KeyPicker.Toggled = not KeyPicker.Toggled
-                    KeyPicker:DoClick()
+                if Key then
+                    if SpecialKeysInput[Input.UserInputType] == Key then
+                        KeyPicker.Toggled = not KeyPicker.Toggled
+                        KeyPicker:DoClick()
+                        
+                    elseif Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Key then
+                        KeyPicker.Toggled = not KeyPicker.Toggled
+                        KeyPicker:DoClick()
+                    end
                 end
             end
 
@@ -5210,6 +5213,7 @@ function Library:CreateWindow(WindowInfo)
     Library.Scheme.Font = WindowInfo.Font
     Library.ToggleKeybind = WindowInfo.ToggleKeybind
 
+    local IsDefaultSearchbarSize = WindowInfo.SearchbarSize == UDim2.fromScale(1, 1)
     local MainFrame
     local SearchBox
     local CurrentTabInfo
@@ -5393,7 +5397,7 @@ function Library:CreateWindow(WindowInfo)
         SearchBox = New("TextBox", {
             BackgroundColor3 = "MainColor",
             PlaceholderText = "Search",
-            Size = UDim2.fromScale(1, 1),
+            Size = WindowInfo.SearchbarSize,
             TextScaled = true,
             Visible = not (WindowInfo.DisableSearch or false),
             Parent = RightWrapper,
@@ -6161,7 +6165,11 @@ function Library:CreateWindow(WindowInfo)
 
             if Description then
                 CurrentTabInfo.Visible = true
-                SearchBox.Size = UDim2.fromScale(0.5, 1)
+                
+                if IsDefaultSearchbarSize then
+                    SearchBox.Size = UDim2.fromScale(0.5, 1)
+                end
+
                 CurrentTabLabel.Text = Name
                 CurrentTabDescription.Text = Description
             end
@@ -6185,7 +6193,10 @@ function Library:CreateWindow(WindowInfo)
             end
             TabContainer.Visible = false
 
-            SearchBox.Size = UDim2.fromScale(1, 1)
+            if IsDefaultSearchbarSize then
+                SearchBox.Size = UDim2.fromScale(1, 1)
+            end
+            
             CurrentTabInfo.Visible = false
 
             Library.ActiveTab = nil
