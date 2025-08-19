@@ -1,3 +1,9 @@
+## 19.08.2025
+
+```diff
++ Fixed `KeyPicker` in Toggle mode not working properly when Key is nil
+```
+
 ### 12.08.2025
 
 ```diff
