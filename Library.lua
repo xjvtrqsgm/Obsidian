@@ -3618,6 +3618,8 @@ do
 
             Prefix = Info.Prefix,
             Suffix = Info.Suffix,
+            Compact = Info.Compact,
+            Rounding = Info.Rounding,
 
             Tooltip = Info.Tooltip,
             DisabledTooltip = Info.DisabledTooltip,
@@ -3817,7 +3819,7 @@ do
                 local Scale = math.clamp((Location - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
 
                 local OldValue = Slider.Value
-                Slider.Value = Round(Slider.Min + ((Slider.Max - Slider.Min) * Scale), Info.Rounding)
+                Slider.Value = Round(Slider.Min + ((Slider.Max - Slider.Min) * Scale), Slider.Rounding)
 
                 Slider:Display()
                 if Slider.Value ~= OldValue then
