@@ -386,22 +386,23 @@ local Slider = Groupbox:AddSlider("MySlider", {
 
 #### Options
 
-| Property        | Type     | Default        | Description                              |
-| --------------- | -------- | -------------- | ---------------------------------------- |
-| Text            | string   | "Slider"       | The slider's text                        |
-| Default         | number   | 0              | The initial value                        |
-| Min             | number   | 0              | The minimum value                        |
-| Max             | number   | 100            | The maximum value                        |
-| Rounding        | number   | 0              | Decimal places to round to               |
-| Compact         | boolean  | false          | Whether to use compact mode              |
-| HideMax         | boolean  | false          | Whether to hide the max value in display |
-| Prefix          | string   | ""             | Text before the value                    |
-| Suffix          | string   | ""             | Text after the value                     |
-| Tooltip         | string   | nil            | Tooltip text shown on hover              |
-| DisabledTooltip | string   | nil            | Tooltip shown when disabled              |
-| Callback        | function | function() end | Called when the slider changes           |
-| Disabled        | boolean  | false          | Whether the slider is disabled           |
-| Visible         | boolean  | true           | Whether the slider is visible            |
+| Property            | Type     | Default        | Description                              |
+| ------------------- | -------- | -------------- | ---------------------------------------- |
+| Text                | string   | "Slider"       | The slider's text                        |
+| Default             | number   | 0              | The initial value                        |
+| Min                 | number   | 0              | The minimum value                        |
+| Max                 | number   | 100            | The maximum value                        |
+| Rounding            | number   | 0              | Decimal places to round to               |
+| Compact             | boolean  | false          | Whether to use compact mode              |
+| HideMax             | boolean  | false          | Whether to hide the max value in display |
+| Prefix              | string   | ""             | Text before the value                    |
+| Suffix              | string   | ""             | Text after the value                     |
+| FormatDisplayValue  | function | nil            | Function to format displayed values      |
+| Tooltip             | string   | nil            | Tooltip text shown on hover              |
+| DisabledTooltip     | string   | nil            | Tooltip shown when disabled              |
+| Callback            | function | function() end | Called when the slider changes           |
+| Disabled            | boolean  | false          | Whether the slider is disabled           |
+| Visible             | boolean  | true           | Whether the slider is visible            |
 
 #### Methods
 
