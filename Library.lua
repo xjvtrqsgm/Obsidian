@@ -3613,7 +3613,6 @@ do
         local Groupbox = self
         local Container = Groupbox.Container
 
-        local Dragging = false
         local Slider = {
             Text = Info.Text,
             Value = Info.Default,
@@ -3713,20 +3712,29 @@ do
                 return
             end
 
-            if Info.Compact then
-                DisplayLabel.Text = string.format("%s: %s%s%s", Slider.Text, Slider.Prefix, Slider.Value, Slider.Suffix)
-            elseif Info.HideMax then
-                DisplayLabel.Text = string.format("%s%s%s", Slider.Prefix, Slider.Value, Slider.Suffix)
+            local CustomDisplayText = nil
+            if Info.FormatDisplayValue then
+                CustomDisplayText = Info.FormatDisplayValue(Slider, Slider.Value)
+            end
+
+            if CustomDisplayText then
+                DisplayLabel.Text = tostring(CustomDisplayText)
             else
-                DisplayLabel.Text = string.format(
-                    "%s%s%s/%s%s%s",
-                    Slider.Prefix,
-                    Slider.Value,
-                    Slider.Suffix,
-                    Slider.Prefix,
-                    Slider.Max,
-                    Slider.Suffix
-                )
+                if Info.Compact then
+                    DisplayLabel.Text = string.format("%s: %s%s%s", Slider.Text, Slider.Prefix, Slider.Value, Slider.Suffix)
+                elseif Info.HideMax then
+                    DisplayLabel.Text = string.format("%s%s%s", Slider.Prefix, Slider.Value, Slider.Suffix)
+                else
+                    DisplayLabel.Text = string.format(
+                        "%s%s%s/%s%s%s",
+                        Slider.Prefix,
+                        Slider.Value,
+                        Slider.Suffix,
+                        Slider.Prefix,
+                        Slider.Max,
+                        Slider.Suffix
+                    )
+                end
             end
 
             local X = (Slider.Value - Slider.Min) / (Slider.Max - Slider.Min)
