@@ -1,3 +1,9 @@
+## 14.09.2025
+
+```diff
++ Added `Press` mode to `KeyPicker`
+```
+
 ## 19.08.2025
 
 ```diff
