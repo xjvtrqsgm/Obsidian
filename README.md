@@ -531,17 +531,18 @@ local Keybind = MyToggle:AddKeyPicker("MyKeybind", {
 
 #### Options
 
-| Property        | Type     | Default                      | Description                                 |
-| --------------- | -------- | ---------------------------- | ------------------------------------------- |
-| Text            | string   | "KeyPicker"                  | The keybind's text                          |
-| Default         | string   | "None"                       | The initial key                             |
-| Mode            | string   | "Toggle"                     | Operation mode ("Toggle", "Hold", "Always") |
-| SyncToggleState | boolean  | false                        | Whether to sync with parent toggle          |
-| Modes           | table    | {"Always", "Toggle", "Hold"} | Available modes                             |
-| NoUI            | boolean  | false                        | Whether to hide from keybind menu           |
-| Callback        | function | function() end               | Called when keybind state changes           |
-| ChangedCallback | function | function() end               | Called when key is changed                  |
-| Clicked         | function | function() end               | Called when clicked                         |
+| Property        | Type     | Default                      | Description                                                                               |
+| --------------- | -------- | ---------------------------- | ----------------------------------------------------------------------------------------- |
+| Text            | string   | "KeyPicker"                  | The keybind's text                                                                        |
+| Default         | string   | "None"                       | The initial key                                                                           |
+| Mode            | string   | "Toggle"                     | Operation mode ("Toggle", "Hold", "Always", "Press")                                      |
+| SyncToggleState | boolean  | false                        | Whether to sync with parent toggle                                                        |
+| WaitForCallback | boolean  | false                        | *Only for Press mode.* Locks the keybind during the execution of Callback and OnChanged.  |
+| Modes           | table    | {"Always", "Toggle", "Hold"} | Available modes                                                                           |
+| NoUI            | boolean  | false                        | Whether to hide from keybind menu                                                         |
+| Callback        | function | function() end               | Called when keybind state changes                                                         |
+| ChangedCallback | function | function() end               | Called when key is changed                                                                |
+| Clicked         | function | function() end               | Called when clicked                                                                       |
 
 #### Methods
 
