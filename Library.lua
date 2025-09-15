@@ -412,7 +412,7 @@ end
 
 local function IsMouseInput(Input: InputObject, IncludeM2: boolean?)
     return Input.UserInputType == Enum.UserInputType.MouseButton1
-        or IncludeM2 and Input.UserInputType == Enum.UserInputType.MouseButton2
+        or (IncludeM2 == true and Input.UserInputType == Enum.UserInputType.MouseButton2)
         or Input.UserInputType == Enum.UserInputType.Touch
 end
 local function IsClickInput(Input: InputObject, IncludeM2: boolean?)
@@ -423,6 +423,11 @@ end
 local function IsHoverInput(Input: InputObject)
     return (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch)
         and Input.UserInputState == Enum.UserInputState.Change
+end
+local function IsDragInput(Input: InputObject, IncludeM2: boolean?)
+    return IsMouseInput(Input, IncludeM2)
+        and (Input.UserInputState == Enum.UserInputState.Begin or Input.UserInputState == Enum.UserInputState.Change)
+        and Library.IsRobloxFocused
 end
 
 local function GetTableSize(Table: { [any]: any })
@@ -2522,7 +2527,7 @@ do
         Holder.MouseButton2Click:Connect(ContextMenu.Toggle)
 
         SatVipMap.InputBegan:Connect(function(Input: InputObject)
-            while IsClickInput(Input) do
+            while IsDragInput(Input) do
                 local MinX = SatVipMap.AbsolutePosition.X
                 local MaxX = MinX + SatVipMap.AbsoluteSize.X
                 local LocationX = math.clamp(Mouse.X, MinX, MaxX)
@@ -2544,7 +2549,7 @@ do
             end
         end)
         HueSelector.InputBegan:Connect(function(Input: InputObject)
-            while IsClickInput(Input) do
+            while IsDragInput(Input) do
                 local Min = HueSelector.AbsolutePosition.Y
                 local Max = Min + HueSelector.AbsoluteSize.Y
                 local Location = math.clamp(Mouse.Y, Min, Max)
@@ -2561,7 +2566,7 @@ do
         end)
         if TransparencySelector then
             TransparencySelector.InputBegan:Connect(function(Input: InputObject)
-                while IsClickInput(Input) do
+                while IsDragInput(Input) do
                     local Min = TransparencySelector.AbsolutePosition.Y
                     local Max = TransparencySelector.AbsolutePosition.Y + TransparencySelector.AbsoluteSize.Y
                     local Location = math.clamp(Mouse.Y, Min, Max)
@@ -3852,7 +3857,7 @@ do
                 Side.ScrollingEnabled = false
             end
 
-            while IsClickInput(Input) do
+            while IsDragInput(Input) do
                 local Location = Mouse.X
                 local Scale = math.clamp((Location - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
 
