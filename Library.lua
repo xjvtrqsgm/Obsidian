@@ -4948,7 +4948,7 @@ do
             elseif not CancelSearch then
                 Library:UpdateSearch(Library.SearchText)
             end
-        end
+        end;
 
         function DepGroupbox:SetupDependencies(Dependencies)
             for _, Dependency in pairs(Dependencies) do
