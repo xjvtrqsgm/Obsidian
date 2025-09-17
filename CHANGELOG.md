@@ -1,3 +1,9 @@
+## 17.09.2025
+
+```diff
++ Added support for custom icons (rbxasset, rbxassetid, rbxthumb, getcustomasset) for Tabs and Groupboxes
+```
+
 ## 14.09.2025
 
 ```diff
