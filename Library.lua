@@ -5951,7 +5951,7 @@ function Library:CreateWindow(WindowInfo)
                 if BoxIcon then
                     New("ImageLabel", {
                         Image = BoxIcon.Url,
-                        ImageColor3 = Icon.Custom and "White" or "AccentColor",
+                        ImageColor3 = BoxIcon.Custom and "White" or "AccentColor",
                         ImageRectOffset = BoxIcon.ImageRectOffset,
                         ImageRectSize = BoxIcon.ImageRectSize,
                         Position = UDim2.fromOffset(6, 6),
