@@ -171,7 +171,7 @@ do
         end
 
         local URLPath = AssetPath:gsub("Obsidian/", "")
-        writefile(AssetPath, game:HttpGet(`{BaseURL}{URLPath}`))
+        writefile(AssetPath, game:HttpGet(BaseURL .. URLPath))
     end
 
     for _, Data in ObsidianImageManager.Assets do
