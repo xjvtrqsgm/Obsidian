@@ -691,6 +691,7 @@ export type Library = {
 		Font: Font | Enum.Font?,
 		ToggleKeybind: Enum.KeyCode?,
 		MobileButtonsSide: "Left" | "Right"?,
+		UnlockMouseWhileOpen: boolean?,
 	}) -> Window,
 	Toggle: (self: Library, Value: boolean?) -> (),
 }
