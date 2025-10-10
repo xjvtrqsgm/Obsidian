@@ -219,7 +219,7 @@ export type KeyPicker = {
 	OnChanged: (self: KeyPicker, Func: (Key: Enum.KeyCode | Enum.UserInputType) -> ()) -> (),
 	OnClick: (self: KeyPicker, Func: () -> ()) -> (),
 	DoClick: (self: KeyPicker) -> (),
-	SetValue: (self: KeyPicker, Data: { string, string }) -> (),
+	SetValue: (self: KeyPicker, Data: { string }) -> (),
 	SetText: (self: KeyPicker, Text: string) -> (),
 }
 
@@ -240,7 +240,7 @@ export type ColorPicker = {
 	Display: (self: ColorPicker) -> (),
 	Update: (self: ColorPicker) -> (),
 	OnChanged: (self: ColorPicker, Func: (Value: Color3) -> ()) -> (),
-	SetValue: (self: ColorPicker, HSV: { number, number, number }, Transparency: number?) -> (),
+	SetValue: (self: ColorPicker, HSV: { number }, Transparency: number?) -> (),
 	SetValueRGB: (self: ColorPicker, Color: Color3, Transparency: number?) -> (),
 }
 
@@ -499,7 +499,7 @@ export type BaseGroupbox = {
 
 export type DependencyBox = BaseGroupbox & {
 	Visible: boolean,
-	Dependencies: { [number]: { Element, any } },
+	Dependencies: { [number]: { Element } },
 	Holder: Frame,
 	Container: Frame,
 	Elements: { [number]: Element },
@@ -507,12 +507,12 @@ export type DependencyBox = BaseGroupbox & {
 
 	Resize: (self: DependencyBox) -> (),
 	Update: (self: DependencyBox, CancelSearch: boolean?) -> (),
-	SetupDependencies: (self: DependencyBox, Dependencies: { { Element, any } }) -> (),
+	SetupDependencies: (self: DependencyBox, Dependencies: { { Element } }) -> (),
 }
 
 export type DependencyGroupbox = BaseGroupbox & {
 	Visible: boolean,
-	Dependencies: { [number]: { Element, any } },
+	Dependencies: { [number]: { Element } },
 	BoxHolder: Frame,
 	Holder: Frame,
 	Container: Frame,
@@ -522,7 +522,7 @@ export type DependencyGroupbox = BaseGroupbox & {
 
 	Resize: (self: DependencyGroupbox) -> (),
 	Update: (self: DependencyGroupbox, CancelSearch: boolean?) -> (),
-	SetupDependencies: (self: DependencyGroupbox, Dependencies: { { Element, any } }) -> (),
+	SetupDependencies: (self: DependencyGroupbox, Dependencies: { { Element } }) -> (),
 }
 
 export type Groupbox = BaseGroupbox & {
@@ -561,15 +561,15 @@ export type Tab = {
 	Groupboxes: { [string]: Groupbox },
 	Tabboxes: { [string]: Tabbox },
 	DependencyGroupboxes: { [number]: DependencyGroupbox },
-	Sides: { ScrollingFrame, ScrollingFrame },
+	Sides: { ScrollingFrame },
 	WarningBox: { IsNormal: boolean, LockSize: boolean, Visible: boolean, Title: string, Text: string },
 
 	UpdateWarningBox: (self: Tab, Info: { IsNormal: boolean?, LockSize: boolean?, Visible: boolean?, Title: string?, Text: string? }) -> (),
 	Resize: (self: Tab, ResizeWarningBox: boolean?) -> (),
-	AddGroupbox: (self: Tab, Info: { Side: 1 | 2, Name: string, IconName: string? }) -> Groupbox,
+	AddGroupbox: (self: Tab, Info: { Side: number, Name: string, IconName: string? }) -> Groupbox,
 	AddLeftGroupbox: (self: Tab, Name: string, IconName: string?) -> Groupbox,
 	AddRightGroupbox: (self: Tab, Name: string, IconName: string?) -> Groupbox,
-	AddTabbox: (self: Tab, Info: { Side: 1 | 2, Name: string? }) -> Tabbox,
+	AddTabbox: (self: Tab, Info: { Side: number, Name: string? }) -> Tabbox,
 	AddLeftTabbox: (self: Tab, Name: string?) -> Tabbox,
 	AddRightTabbox: (self: Tab, Name: string?) -> Tabbox,
 	Hover: (self: Tab, Hovering: boolean) -> (),
@@ -636,7 +636,7 @@ export type Library = {
 	Scheme: Scheme,
 	Registry: { [GuiObject]: { [string]: string | () -> Color3 } },
 	DPIRegistry: { [GuiObject]: { [string]: any } },
-	CopiedColor: { Color3, number }?,
+	CopiedColor: { Color3 | number }?,
 
 	-- Methods
 	UpdateKeybindFrame: (self: Library) -> (),
