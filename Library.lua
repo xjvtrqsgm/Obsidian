@@ -100,22 +100,24 @@ local ObsidianImageManager = {
             RobloxId = 139785960036434,
             Path = "Obsidian/assets/TransparencyTexture.png",
 
-            Id = nil
+            Id = nil,
         },
-        
+
         SaturationMap = {
             RobloxId = 4155801252,
             Path = "Obsidian/assets/SaturationMap.png",
 
-            Id = nil
-        }
-    }
+            Id = nil,
+        },
+    },
 }
 do
     local BaseURL = "https://raw.githubusercontent.com/deividcomsono/Obsidian/refs/heads/main/"
 
     local function RecursiveCreatePath(Path: string, IsFile: boolean?)
-        if not isfolder or not makefolder then return end
+        if not isfolder or not makefolder then
+            return
+        end
 
         local Segments = Path:split("/")
         local TraversedPath = ""
@@ -258,7 +260,7 @@ local Templates = {
         Font = Enum.Font.Code,
         ToggleKeybind = Enum.KeyCode.RightControl,
         MobileButtonsSide = "Left",
-        UnlockMouseWhileOpen = true
+        UnlockMouseWhileOpen = true,
     },
     Toggle = {
         Text = "Toggle",
@@ -946,7 +948,8 @@ function Library:GiveSignal(Connection: RBXScriptConnection)
 end
 
 function IsValidCustomIcon(Icon: string)
-    return typeof(Icon) == "string" and (Icon:match("rbxasset") or Icon:match("roblox%.com/asset/%?id=") or Icon:match("rbxthumb://type="))
+    return typeof(Icon) == "string"
+        and (Icon:match("rbxasset") or Icon:match("roblox%.com/asset/%?id=") or Icon:match("rbxthumb://type="))
 end
 
 local FetchIcons, Icons = pcall(function()
@@ -973,7 +976,7 @@ function Library:GetCustomIcon(IconName: string)
             Url = IconName,
             ImageRectOffset = Vector2.zero,
             ImageRectSize = Vector2.zero,
-            Custom = true
+            Custom = true,
         }
     end
 end
@@ -1109,7 +1112,7 @@ local ModalElement = New("TextButton", {
     AnchorPoint = Vector2.zero,
     Text = "",
     ZIndex = -999,
-    Parent = ScreenGui
+    Parent = ScreenGui,
 })
 
 --// Cursor
@@ -1863,7 +1866,7 @@ do
 
         if KeyPicker.Mode == "Press" then
             assert(ParentObj.Type == "Label", "KeyPicker with the mode 'Press' can be only applied on Labels.")
-            
+
             KeyPicker.SyncToggleState = false
             Info.Modes = { "Press" }
             Info.Mode = "Press"
@@ -1880,13 +1883,13 @@ do
         local SpecialKeys = {
             ["MB1"] = Enum.UserInputType.MouseButton1,
             ["MB2"] = Enum.UserInputType.MouseButton2,
-            ["MB3"] = Enum.UserInputType.MouseButton3
+            ["MB3"] = Enum.UserInputType.MouseButton3,
         }
 
         local SpecialKeysInput = {
             [Enum.UserInputType.MouseButton1] = "MB1",
             [Enum.UserInputType.MouseButton2] = "MB2",
-            [Enum.UserInputType.MouseButton3] = "MB3"
+            [Enum.UserInputType.MouseButton3] = "MB3",
         }
 
         -- Modifiers
@@ -1901,7 +1904,7 @@ do
             ["RShift"] = Enum.KeyCode.RightShift,
 
             ["Tab"] = Enum.KeyCode.Tab,
-            ["CapsLock"] = Enum.KeyCode.CapsLock
+            ["CapsLock"] = Enum.KeyCode.CapsLock,
         }
 
         local ModifiersInput = {
@@ -1915,85 +1918,94 @@ do
             [Enum.KeyCode.RightShift] = "RShift",
 
             [Enum.KeyCode.Tab] = "Tab",
-            [Enum.KeyCode.CapsLock] = "CapsLock"
+            [Enum.KeyCode.CapsLock] = "CapsLock",
         }
 
         local IsModifierInput = function(Input)
-            return Input.UserInputType == Enum.UserInputType.Keyboard and ModifiersInput[Input.KeyCode] ~= nil;
-        end;
+            return Input.UserInputType == Enum.UserInputType.Keyboard and ModifiersInput[Input.KeyCode] ~= nil
+        end
 
         local GetActiveModifiers = function()
-            local ActiveModifiers = {};
+            local ActiveModifiers = {}
 
             for Name, Input in Modifiers do
-                if table.find(ActiveModifiers, Name) then continue end
-                if not UserInputService:IsKeyDown(Input) then continue end
+                if table.find(ActiveModifiers, Name) then
+                    continue
+                end
+                if not UserInputService:IsKeyDown(Input) then
+                    continue
+                end
 
-                table.insert(ActiveModifiers, Name);
-            end;
+                table.insert(ActiveModifiers, Name)
+            end
 
-            return ActiveModifiers;
+            return ActiveModifiers
         end
 
         local AreModifiersHeld = function(Required)
-            if not (typeof(Required) == "table" and GetTableSize(Required) > 0) then 
-                return true;
-            end;
-
-            local ActiveModifiers = GetActiveModifiers();
-            local Holding = true;
-
-            for _, Name in Required do
-                if table.find(ActiveModifiers, Name) then continue end
-
-                Holding = false;
-                break;
+            if not (typeof(Required) == "table" and GetTableSize(Required) > 0) then
+                return true
             end
 
-            return Holding;
+            local ActiveModifiers = GetActiveModifiers()
+            local Holding = true
+
+            for _, Name in Required do
+                if table.find(ActiveModifiers, Name) then
+                    continue
+                end
+
+                Holding = false
+                break
+            end
+
+            return Holding
         end
 
         local IsInputDown = function(Input)
-            if not Input then 
-                return false;
-            end;
+            if not Input then
+                return false
+            end
 
             if SpecialKeysInput[Input.UserInputType] ~= nil then
-                return UserInputService:IsMouseButtonPressed(Input.UserInputType) and not UserInputService:GetFocusedTextBox();
+                return UserInputService:IsMouseButtonPressed(Input.UserInputType)
+                    and not UserInputService:GetFocusedTextBox()
             elseif Input.UserInputType == Enum.UserInputType.Keyboard then
-                return UserInputService:IsKeyDown(Input.KeyCode) and not UserInputService:GetFocusedTextBox();
+                return UserInputService:IsKeyDown(Input.KeyCode) and not UserInputService:GetFocusedTextBox()
             else
-                return false;
+                return false
             end
         end
 
         local ConvertToInputModifiers = function(CurrentModifiers)
-            local InputModifiers = {};
+            local InputModifiers = {}
 
             for _, name in CurrentModifiers do
-                table.insert(InputModifiers, Modifiers[name]);
+                table.insert(InputModifiers, Modifiers[name])
             end
 
-            return InputModifiers;
+            return InputModifiers
         end
 
         local VerifyModifiers = function(CurrentModifiers)
             if typeof(CurrentModifiers) ~= "table" then
-                return {};
-            end;
-
-            local ValidModifiers = {};
-
-            for _, name in CurrentModifiers do
-                if not Modifiers[name] then continue end
-
-                table.insert(ValidModifiers, name);
+                return {}
             end
 
-            return ValidModifiers;
+            local ValidModifiers = {}
+
+            for _, name in CurrentModifiers do
+                if not Modifiers[name] then
+                    continue
+                end
+
+                table.insert(ValidModifiers, name)
+            end
+
+            return ValidModifiers
         end
 
-        KeyPicker.Modifiers = VerifyModifiers(KeyPicker.Modifiers); -- Verify default modifiers
+        KeyPicker.Modifiers = VerifyModifiers(KeyPicker.Modifiers) -- Verify default modifiers
 
         local Picker = New("TextButton", {
             BackgroundColor3 = "MainColor",
@@ -2005,7 +2017,8 @@ do
             Parent = ToggleLabel,
         })
 
-        local KeybindsToggle = { Normal = KeyPicker.Mode ~= "Toggle" }; do
+        local KeybindsToggle = { Normal = KeyPicker.Mode ~= "Toggle" }
+        do
             local Holder = New("TextButton", {
                 BackgroundTransparency = 1,
                 Size = UDim2.new(1, 0, 0, 16),
@@ -2147,8 +2160,12 @@ do
                 return
             end
 
-            local X, Y =
-                Library:GetTextBounds(KeyPicker.DisplayValue, Picker.FontFace, Picker.TextSize, ToggleLabel.AbsoluteSize.X)
+            local X, Y = Library:GetTextBounds(
+                KeyPicker.DisplayValue,
+                Picker.FontFace,
+                Picker.TextSize,
+                ToggleLabel.AbsoluteSize.X
+            )
             Picker.Text = KeyPicker.DisplayValue
             Picker.Size = UDim2.fromOffset(X + 9 * Library.DPIScale, Y + 4 * Library.DPIScale)
         end
@@ -2185,26 +2202,25 @@ do
 
         function KeyPicker:GetState()
             if KeyPicker.Mode == "Always" then
-                return true;
-
+                return true
             elseif KeyPicker.Mode == "Hold" then
                 local Key = KeyPicker.Value
                 if Key == "None" then
-                    return false;
+                    return false
                 end
 
                 if not AreModifiersHeld(KeyPicker.Modifiers) then
-                    return false;
-                end;
+                    return false
+                end
 
                 if SpecialKeys[Key] ~= nil then
-                    return UserInputService:IsMouseButtonPressed(SpecialKeys[Key]) and not UserInputService:GetFocusedTextBox();
+                    return UserInputService:IsMouseButtonPressed(SpecialKeys[Key])
+                        and not UserInputService:GetFocusedTextBox()
                 else
-                    return UserInputService:IsKeyDown(Enum.KeyCode[Key]) and not UserInputService:GetFocusedTextBox();
-                end;
-
+                    return UserInputService:IsKeyDown(Enum.KeyCode[Key]) and not UserInputService:GetFocusedTextBox()
+                end
             else
-                return KeyPicker.Toggled;
+                return KeyPicker.Toggled
             end
         end
 
@@ -2240,43 +2256,40 @@ do
         function KeyPicker:SetValue(Data)
             local Key, Mode, Modifiers = Data[1], Data[2], Data[3]
 
-            local IsKeyValid, UserInputType = pcall(function() 
+            local IsKeyValid, UserInputType = pcall(function()
                 if Key == "None" then
-                    Key = nil;
-                    return nil;
-                end;
+                    Key = nil
+                    return nil
+                end
 
-                if SpecialKeys[Key] == nil then 
-                    return Enum.KeyCode[Key];
-                end; 
+                if SpecialKeys[Key] == nil then
+                    return Enum.KeyCode[Key]
+                end
 
-                return SpecialKeys[Key]; 
-            end);
+                return SpecialKeys[Key]
+            end)
 
             if Key == nil then
-                KeyPicker.Value = "None";
+                KeyPicker.Value = "None"
             elseif IsKeyValid then
-                KeyPicker.Value = Key;
+                KeyPicker.Value = Key
             else
-                KeyPicker.Value = "Unknown";
+                KeyPicker.Value = "Unknown"
             end
 
-            KeyPicker.Modifiers = VerifyModifiers(if typeof(Modifiers) == "table" then Modifiers else KeyPicker.Modifiers);
-            KeyPicker.DisplayValue = if GetTableSize(KeyPicker.Modifiers) > 0 then (table.concat(KeyPicker.Modifiers, " + ") .. " + " .. KeyPicker.Value) else KeyPicker.Value;
+            KeyPicker.Modifiers =
+                VerifyModifiers(if typeof(Modifiers) == "table" then Modifiers else KeyPicker.Modifiers)
+            KeyPicker.DisplayValue = if GetTableSize(KeyPicker.Modifiers) > 0
+                then (table.concat(KeyPicker.Modifiers, " + ") .. " + " .. KeyPicker.Value)
+                else KeyPicker.Value
 
             if ModeButtons[Mode] then
                 ModeButtons[Mode]:Select()
             end
 
-            local NewModifiers = ConvertToInputModifiers(KeyPicker.Modifiers);
-            Library:SafeCallback(
-                KeyPicker.ChangedCallback,
-                UserInputType, NewModifiers
-            )
-            Library:SafeCallback(
-                KeyPicker.Changed,
-                UserInputType, NewModifiers
-            )
+            local NewModifiers = ConvertToInputModifiers(KeyPicker.Modifiers)
+            Library:SafeCallback(KeyPicker.ChangedCallback, UserInputType, NewModifiers)
+            Library:SafeCallback(KeyPicker.Changed, UserInputType, NewModifiers)
 
             KeyPicker:Update()
         end
@@ -2308,20 +2321,21 @@ do
             until not IsModifierInput(Input)
 
             local Key = "Unknown"
-            local ActiveModifiers = 
-                if Input.KeyCode == Enum.KeyCode.Escape then {} else GetActiveModifiers();
+            local ActiveModifiers = if Input.KeyCode == Enum.KeyCode.Escape then {} else GetActiveModifiers()
 
             if SpecialKeysInput[Input.UserInputType] ~= nil then
-                Key = SpecialKeysInput[Input.UserInputType];
+                Key = SpecialKeysInput[Input.UserInputType]
             elseif Input.UserInputType == Enum.UserInputType.Keyboard then
-                Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name;
+                Key = Input.KeyCode == Enum.KeyCode.Escape and "None" or Input.KeyCode.Name
             end
 
-            KeyPicker.Toggled = false;
+            KeyPicker.Toggled = false
             KeyPicker:SetValue({ Key, KeyPicker.Mode, ActiveModifiers })
 
             -- RunService.RenderStepped:Wait()
-            repeat task.wait() until not IsInputDown(Input) or UserInputService:GetFocusedTextBox()
+            repeat
+                task.wait()
+            until not IsInputDown(Input) or UserInputService:GetFocusedTextBox()
             Picking = false
         end)
         Picker.MouseButton2Click:Connect(MenuTable.Toggle)
@@ -2337,14 +2351,16 @@ do
                 return
             end
 
-            local Key = KeyPicker.Value;
-            local HoldingModifiers = AreModifiersHeld(KeyPicker.Modifiers);
-            local HoldingKey = false;
+            local Key = KeyPicker.Value
+            local HoldingModifiers = AreModifiersHeld(KeyPicker.Modifiers)
+            local HoldingKey = false
 
-            if 
-                Key and HoldingModifiers == true and (
-                    SpecialKeysInput[Input.UserInputType] == Key or 
-                    (Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Key)
+            if
+                Key
+                and HoldingModifiers == true
+                and (
+                    SpecialKeysInput[Input.UserInputType] == Key
+                    or (Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Key)
                 )
             then
                 HoldingKey = true
@@ -2355,7 +2371,6 @@ do
                     KeyPicker.Toggled = not KeyPicker.Toggled
                     KeyPicker:DoClick()
                 end
-
             elseif KeyPicker.Mode == "Press" then
                 if HoldingKey then
                     KeyPicker:DoClick()
@@ -3919,7 +3934,8 @@ do
                 DisplayLabel.Text = tostring(CustomDisplayText)
             else
                 if Info.Compact then
-                    DisplayLabel.Text = string.format("%s: %s%s%s", Slider.Text, Slider.Prefix, Slider.Value, Slider.Suffix)
+                    DisplayLabel.Text =
+                        string.format("%s: %s%s%s", Slider.Text, Slider.Prefix, Slider.Value, Slider.Suffix)
                 elseif Info.HideMax then
                     DisplayLabel.Text = string.format("%s%s%s", Slider.Prefix, Slider.Value, Slider.Suffix)
                 else
@@ -5521,7 +5537,9 @@ function Library:CreateWindow(WindowInfo)
 
         if WindowInfo.Icon then
             New("ImageLabel", {
-                Image = if tonumber(WindowInfo.Icon) then string.format("rbxassetid://%d", WindowInfo.Icon) else WindowInfo.Icon,
+                Image = if tonumber(WindowInfo.Icon)
+                    then string.format("rbxassetid://%d", WindowInfo.Icon)
+                    else WindowInfo.Icon,
                 Size = WindowInfo.IconSize,
                 Parent = TitleHolder,
             })
@@ -5780,7 +5798,7 @@ function Library:CreateWindow(WindowInfo)
         local TabContainer
         local TabLeft
         local TabRight
-		
+
         local WarningBox
         local WarningBoxScrollingFrame
         local WarningTitle
@@ -5973,26 +5991,40 @@ function Library:CreateWindow(WindowInfo)
                 LockSize = false,
                 Visible = false,
                 Title = "WARNING",
-                Text = ""
-            }
+                Text = "",
+            },
         }
 
         function Tab:UpdateWarningBox(Info)
-            if typeof(Info.IsNormal) == "boolean"   then Tab.WarningBox.IsNormal    = Info.IsNormal end
-            if typeof(Info.LockSize) == "boolean"   then Tab.WarningBox.LockSize    = Info.LockSize end
-            if typeof(Info.Visible) == "boolean"    then Tab.WarningBox.Visible     = Info.Visible end
-            if typeof(Info.Title) == "string"       then Tab.WarningBox.Title       = Info.Title end
-            if typeof(Info.Text) == "string"        then Tab.WarningBox.Text        = Info.Text end
+            if typeof(Info.IsNormal) == "boolean" then
+                Tab.WarningBox.IsNormal = Info.IsNormal
+            end
+            if typeof(Info.LockSize) == "boolean" then
+                Tab.WarningBox.LockSize = Info.LockSize
+            end
+            if typeof(Info.Visible) == "boolean" then
+                Tab.WarningBox.Visible = Info.Visible
+            end
+            if typeof(Info.Title) == "string" then
+                Tab.WarningBox.Title = Info.Title
+            end
+            if typeof(Info.Text) == "string" then
+                Tab.WarningBox.Text = Info.Text
+            end
 
             WarningBox.Visible = Tab.WarningBox.Visible
             WarningTitle.Text = Tab.WarningBox.Title
             WarningText.Text = Tab.WarningBox.Text
             Tab:Resize(true)
 
-            WarningBox.BackgroundColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.BackgroundColor or Color3.fromRGB(127, 0, 0)
-            WarningBox.BorderColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.OutlineColor or Color3.fromRGB(255, 50, 50)
-            WarningTitle.TextColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.FontColor or Color3.fromRGB(255, 50, 50)
-            WarningStroke.Color = Tab.WarningBox.IsNormal == true and Library.Scheme.OutlineColor or Color3.fromRGB(169, 0, 0)
+            WarningBox.BackgroundColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.BackgroundColor
+                or Color3.fromRGB(127, 0, 0)
+            WarningBox.BorderColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.OutlineColor
+                or Color3.fromRGB(255, 50, 50)
+            WarningTitle.TextColor3 = Tab.WarningBox.IsNormal == true and Library.Scheme.FontColor
+                or Color3.fromRGB(255, 50, 50)
+            WarningStroke.Color = Tab.WarningBox.IsNormal == true and Library.Scheme.OutlineColor
+                or Color3.fromRGB(169, 0, 0)
 
             if not Library.Registry[WarningBox] then
                 Library:AddToRegistry(WarningBox, {})
@@ -6369,7 +6401,7 @@ function Library:CreateWindow(WindowInfo)
 
             if Description then
                 CurrentTabInfo.Visible = true
-                
+
                 if IsDefaultSearchbarSize then
                     SearchBox.Size = UDim2.fromScale(0.5, 1)
                 end
@@ -6404,7 +6436,7 @@ function Library:CreateWindow(WindowInfo)
             if IsDefaultSearchbarSize then
                 SearchBox.Size = UDim2.fromScale(1, 1)
             end
-            
+
             CurrentTabInfo.Visible = false
 
             Library.ActiveTab = nil
@@ -6644,7 +6676,7 @@ function Library:CreateWindow(WindowInfo)
         end
 
         MainFrame.Visible = Library.Toggled
-        
+
         if WindowInfo.UnlockMouseWhileOpen then
             ModalElement.Modal = Library.Toggled
         end
