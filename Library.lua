@@ -5482,11 +5482,12 @@ function Library:CreateWindow(WindowInfo)
             Size = false,
         })
 
-        MainFrame = New("Frame", {
+        MainFrame = New("TextButton", {
             BackgroundColor3 = function()
                 return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
             end,
             Name = "Main",
+            Text = "",
             Position = WindowInfo.Position,
             Size = WindowInfo.Size,
             Visible = false,
