@@ -5058,7 +5058,6 @@ do
 
         function Video:SetVolume(Volume: number)
             assert(typeof(Volume) == "number", "Volume must be a number between 0 and 10.")
-            assert(Volume >= 0 and Volume <= 10, "Volume must be between 0 and 10.")
 
             VideoFrameInstance.Volume = Volume
             Video.Volume = Volume
@@ -5110,10 +5109,7 @@ do
             typeof(Info.Instance) == "Instance" and Info.Instance:IsA("GuiBase2d"),
             "Instance must inherit from GuiBase2d."
         )
-        assert(
-            typeof(Info.Height) == "number" and Info.Height > 0,
-            "Height must be a number greater than 0."
-        )
+        assert(typeof(Info.Height) == "number" and Info.Height > 0, "Height must be a number greater than 0.")
 
         local Passthrough = {
             Instance = Info.Instance,
@@ -5144,7 +5140,10 @@ do
 
         function Passthrough:SetInstance(Instance: Instance)
             assert(Instance, "Instance must be provided.")
-            assert(typeof(Instance) == "Instance" and Instance:IsA("GuiBase2d"), "Instance must inherit from GuiBase2d.")
+            assert(
+                typeof(Instance) == "Instance" and Instance:IsA("GuiBase2d"),
+                "Instance must inherit from GuiBase2d."
+            )
 
             if Passthrough.Instance then
                 Passthrough.Instance.Parent = nil
