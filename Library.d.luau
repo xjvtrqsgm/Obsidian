@@ -177,6 +177,21 @@ export type ImageInfo = {
     Visible: boolean?,
 }
 
+export type VideoInfo = {
+    Video: string,
+    Looped: boolean?,
+    Playing: boolean?,
+    Volume: number?,
+    Height: number?,
+    Visible: boolean?,
+}
+
+export type UIPassthroughInfo = {
+    Instance: GuiBase2d,
+    Height: number?,
+    Visible: boolean?,
+}
+
 export type KeyPickerInfo = {
     Text: string,
     Default: string?,
@@ -473,13 +488,67 @@ export type Image = {
     SetVisible: (self: Image, Visible: boolean) -> (),
 }
 
+export type Video = {
+    Video: string,
+    Looped: boolean,
+    Playing: boolean,
+    Volume: number,
+    Height: number,
+    Visible: boolean,
+    Type: "Video",
+    Holder: Frame,
+    VideoFrame: VideoFrame,
+
+    SetHeight: (self: Video, Height: number) -> (),
+    SetVideo: (self: Video, NewVideo: string) -> (),
+    SetLooped: (self: Video, Looped: boolean) -> (),
+    SetVolume: (self: Video, Volume: number) -> (),
+    SetPlaying: (self: Video, Playing: boolean) -> (),
+    Play: (self: Video) -> (),
+    Pause: (self: Video) -> (),
+    SetVisible: (self: Video, Visible: boolean) -> (),
+}
+
+export type UIPassthrough = {
+    Instance: GuiBase2d,
+    Height: number,
+    Visible: boolean,
+    Type: "UIPassthrough",
+    Holder: Frame,
+
+    SetHeight: (self: UIPassthrough, Height: number) -> (),
+    SetInstance: (self: UIPassthrough, Instance: GuiBase2d) -> (),
+    SetVisible: (self: UIPassthrough, Visible: boolean) -> (),
+}
+
 export type Divider = {
     Type: "Divider",
     Holder: Frame,
 }
 
-export type Element = Label | Button | Toggle | Input | Slider | Dropdown | Viewport | Image | Divider
-export type Option = Toggle | Input | Slider | Dropdown | Viewport | Image | KeyPicker | ColorPicker
+export type Element =
+    Label
+    | Button
+    | Toggle
+    | Input
+    | Slider
+    | Dropdown
+    | Viewport
+    | Image
+    | Video
+    | UIPassthrough
+    | Divider
+export type Option =
+    Toggle
+    | Input
+    | Slider
+    | Dropdown
+    | Viewport
+    | Image
+    | Video
+    | UIPassthrough
+    | KeyPicker
+    | ColorPicker
 
 --// Container Types
 export type BaseGroupbox = {
@@ -498,6 +567,8 @@ export type BaseGroupbox = {
     AddDropdown: (self: Groupbox, Idx: string, Info: DropdownInfo) -> Dropdown,
     AddViewport: (self: Groupbox, Idx: string, Info: ViewportInfo) -> Viewport,
     AddImage: (self: Groupbox, Idx: string, Info: ImageInfo) -> Image,
+    AddVideo: (self: Groupbox, Idx: string, Info: VideoInfo) -> Video,
+    AddUIPassthrough: (self: Groupbox, Idx: string, Info: UIPassthroughInfo) -> UIPassthrough,
     AddDependencyBox: (self: Groupbox) -> DependencyBox,
     AddDependencyGroupbox: (self: Groupbox) -> DependencyGroupbox,
 }
