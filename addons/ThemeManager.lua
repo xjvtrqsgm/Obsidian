@@ -44,8 +44,8 @@ do
     ThemeManager.BuiltInThemes = {
         ["Default"] = {
             1,
-            httpService:JSONDecode(
-                [[{"FontColor":"ffffff","MainColor":"191919","AccentColor":"7d55ff","BackgroundColor":"0f0f0f","OutlineColor":"282828"}]]
+           httpService:JSONDecode(
+                [[{"FontColor":"ffffff","MainColor":"232330","AccentColor":"426e87","BackgroundColor":"1d1b26","OutlineColor":"27232f"}]]
             ),
         },
         ["BBot"] = {
